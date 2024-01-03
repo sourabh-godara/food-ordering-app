@@ -3,10 +3,10 @@ import { Poppins } from "next/font/google";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider"
 import "./globals.css";
-import Navbar from "./components/Layout/Navbar";
-import Footer from "./components/Layout/Footer";
+import {ThemeProvider} from "./components/ThemeProvider"
+import { Toaster } from "@/components/ui/toaster"
 
-const poppins = Poppins({ subsets: ["latin"], weight: "300", style: "normal" });
+const poppins = Poppins({ subsets: ["latin"], weight: ["200","300","400","500"], style: "normal" });
 
 export const metadata: Metadata = {
   title: "Food Ordering App",
@@ -23,12 +23,18 @@ export default async function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <SessionProvider session={session}>
-        <main className=" max-w-6xl m-auto p-6">
-          <Navbar />
+        <main>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster/>
           {children}
+          </ThemeProvider>
         </main>
         </SessionProvider>
-        <Footer/>
       </body>
     </html>
   );

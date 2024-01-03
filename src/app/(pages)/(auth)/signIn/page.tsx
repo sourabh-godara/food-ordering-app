@@ -13,6 +13,7 @@ export default function page() {
         return redirect('/')
     }
 
+
     async function handleLogin(e:Event){
         e.preventDefault();
        await signIn('credentials',{email,password,callbackUrl:'/'})
@@ -76,7 +77,7 @@ export default function page() {
                                 type="submit">Sign in with Google</button>
                             <p className="mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base">
                                 Need an account? &nbsp;
-                                <Link href="/Register" className="font-semibold text-primary hover:text-red-600">
+                                <Link href="/register" className="font-semibold text-primary hover:text-red-600">
                                      Create an account</Link>
                             </p>
                         </form>

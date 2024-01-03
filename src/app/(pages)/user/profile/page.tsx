@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function page() {
   interface Session {
@@ -16,9 +16,9 @@ export default async function page() {
     "use server"
     const username = formData.get("username");
     fetch("http://localhost:8080/api/profile", {
-      method: "PUT",
+      method:"PUT",
       cache: "no-store",
-      body: JSON.stringify({ username }),
+      body: JSON.stringify({ session,username }),
       credentials:'include'
     });
   }

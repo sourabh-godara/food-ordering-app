@@ -1,17 +1,27 @@
 import React from 'react'
-import ClientButton from '../components/ClientButton';
+import { z } from "zod";
 
 export default function page() {
+
   const registerUser =async (formData:FormData) =>{
     "use server"
-    const username = formData.get('username');
+    const registerParsed = z.object({
+        name:z.string().min(2),
+        email:z.string().min(5).max(50).toLowerCase(),
+        password:z.string().min(8,{ message: "Password must be 8 or more characters long" }).max(20)
+    })
+    const name = formData.get('name');
     const email = formData.get('email');
     const password = formData.get('password');
-    fetch('http://localhost:8080/api/register',{
+    const safeParsed = registerParsed.safeParse({name,email,password});
+    console.log("SAFE PARSE",safeParsed?.success);
+    if(safeParsed?.success){
+        fetch('http://localhost:8080/api/register',{
       method: 'POST',
       cache: 'no-store',
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify(safeParsed.data),
     })
+}
   }
   return (
     <section className="flex items-center justify-center h-screen font-poppins">
@@ -29,7 +39,7 @@ export default function page() {
                         <div className="">
                                 <input type="text"
                                     className="w-full px-4 py-3 mt-2 bg-gray-200 rounded-lg lg:py-5"
-                                    name="username" placeholder="Enter your Username"/>
+                                    name="name" placeholder="Enter your Username"/>
                             </div>
                             <div className="mt-4">
                                 <input type="email"

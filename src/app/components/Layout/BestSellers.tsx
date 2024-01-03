@@ -6,7 +6,8 @@ export default async function BestSellers() {
     <>
       <h3 className="text-center font-bold text-4xl mt-8">Best Sellers</h3>
       <section className="flex gap-14 mt-10 justify-center">
-        <div className="flex bg-gray-200 hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
+      <div className="flex flex-wrap gap-12">
+        <div className="flex bg-accent hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
           <div className="relative h-full">
             <Image
               src={"/01.png"}
@@ -27,7 +28,7 @@ export default async function BestSellers() {
             </button>
           </div>
         </div>
-        <div className="flex bg-gray-200 hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
+        <div className="flex bg-accent hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
           <div className="relative h-full">
             <Image
               src={"/02.png"}
@@ -48,7 +49,7 @@ export default async function BestSellers() {
             </button>
           </div>
         </div>
-        <div className="flex bg-gray-200 hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
+        <div className="flex bg-accent hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
           <div className="relative h-full">
             <Image
               src={"/03.png"}
@@ -69,7 +70,7 @@ export default async function BestSellers() {
             </button>
           </div>
         </div>
-        <div className="flex bg-gray-200 hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
+        <div className="flex bg-accent hover:scale-105 transition-transform duration-500 rounded-xl flex-col gap-1 h-72 w-52 p-4">
           <div className="relative h-full">
             <Image
               src={"/01.png"}
@@ -89,6 +90,7 @@ export default async function BestSellers() {
               Add +
             </button>
           </div>
+        </div>
         </div>
       </section>
     </>

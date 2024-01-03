@@ -11,7 +11,7 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: MongoDBAdapter(clientPromise),
   pages: {
-    signIn: '/Signin',
+    signIn: '/signIn',
   },
     providers: [
       GoogleProvider({
@@ -32,7 +32,6 @@ export const authOptions = {
             if(user && bcrypt.compareSync(password, user.password)){
               return user;
             }
-      
             return null
           }
         })
