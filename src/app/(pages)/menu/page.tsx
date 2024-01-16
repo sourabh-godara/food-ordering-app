@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* import Image from "next/image";
 import React from "react";
 import Categories from "@/components/layout/Categories";
 import { Button } from "@/components/ui/button";
@@ -61,3 +61,13 @@ export default async function Page() {
     </>
   );
 }
+ */
+import React from 'react'
+
+function page() {
+  return (
+    <div>page</div>
+  )
+}
+
+export default page

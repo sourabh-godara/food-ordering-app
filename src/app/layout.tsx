@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: "Food Ordering App",
   description: "Food Ordering Website Using Next JS",
 };
-
 export default async function RootLayout({
   children,
 }: {

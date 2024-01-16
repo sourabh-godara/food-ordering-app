@@ -16,7 +16,7 @@ export default function Page() {
 
     async function handleLogin(e:Event){
         e.preventDefault();
-       await signIn('credentials',{email,password,callbackUrl:'/'})
+       await signIn('credentials',{email,password/* ,callbackUrl:'/' */})
        
     }
   return (
