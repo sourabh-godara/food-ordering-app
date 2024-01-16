@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export default async function Page() {
   async function fetchProducts() {
     "use server";
-    const data = await fetch("http://localhost:8080/api/product/all", {
+    const data = await fetch(`${process.env.BASE_URL}/api/product/all`, {
       method: "GET",
       next: { tags: ["products"] },
     });

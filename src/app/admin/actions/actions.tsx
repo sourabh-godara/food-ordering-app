@@ -1,7 +1,7 @@
 "use server"
 
 export async function fetchCategories(){
-    const data = await fetch("http://localhost:8080/api/product/category",{
+    const data = await fetch(`${process.env.BASE_URL}api/product/category`,{
     method: "GET",
     cache: 'no-store',
     next: { tags: ['category']}

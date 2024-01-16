@@ -16,7 +16,7 @@ export default function page() {
     const safeParsed = registerParsed.safeParse({name,email,password});
     console.log("SAFE PARSE",safeParsed?.success);
     if(safeParsed?.success){
-        fetch('http://localhost:8080/api/register',{
+        fetch(`${process.env.BASE_URL}api/register`,{
       method: 'POST',
       cache: 'no-store',
       body: JSON.stringify(safeParsed.data),
