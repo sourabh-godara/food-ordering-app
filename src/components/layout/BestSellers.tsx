@@ -6,7 +6,7 @@ import { IoArrowForwardOutline } from "react-icons/io5";
 export default async function BestSellers() {
   async function fetchCategory() {
     "use server";
-    const data = await fetch("http://localhost:8080/api/product/category", {
+    const data = await fetch(`${process.env.BASE_URL}api/product/category`, {
       method: "GET",
     });
     const category = data.json();

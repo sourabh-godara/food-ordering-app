@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       hi
-    {/* <HeroSection />
+    <HeroSection />
     <BestSellers />
     <div className="w-11/12 m-auto grid grid-cols-2 bg-accent mt-10 p-7 rounded-2xl">
       <div className="flex flex-col gap-6">
@@ -28,7 +28,7 @@ export default function Home() {
           alt="burgers"
         />
       </div>
-    </div> */}
+    </div>
   </main>
   )
 }

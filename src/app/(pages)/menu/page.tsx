@@ -1,4 +1,4 @@
-/* import Image from "next/image";
+import Image from "next/image";
 import React from "react";
 import Categories from "@/components/layout/Categories";
 import { Button } from "@/components/ui/button";
@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 export default async function Page() {
   async function fetchProducts() {
     "use server";
-    const data = await fetch(`${process.env.BASE_URL}/api/product/all`, {
+    const data = await fetch(`${process.env.BASE_URL}api/product/all`, {
       method: "GET",
+      cache:'no-store',
       next: { tags: ["products"] },
     });
     const products = await data.json();
@@ -61,13 +62,3 @@ export default async function Page() {
     </>
   );
 }
- */
-import React from 'react'
-
-function page() {
-  return (
-    <div>page</div>
-  )
-}
-
-export default page
