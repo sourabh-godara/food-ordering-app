@@ -1,7 +1,5 @@
-"use client"
-
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-
+"use client";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 const data = [
   {
     name: "Jan",
@@ -51,7 +49,7 @@ const data = [
     name: "Dec",
     total: Math.floor(Math.random() * 5000) + 1000,
   },
-]
+];
 
 export default function Overview() {
   return (
@@ -79,5 +77,5 @@ export default function Overview() {
         />
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }

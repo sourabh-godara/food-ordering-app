@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import React from "react";
-import ClientButton from "../ClientButton";
-import CartModal from "../Modals/CartModal";
+import ClientButton from "./ClientButton";
+import CartModal from "../ui/CartModal";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 

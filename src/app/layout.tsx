@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { getServerSession } from "next-auth";
-import SessionProvider from "./components/SessionProvider"
+import SessionProvider from "../components/provider/SessionProvider"
 import "./globals.css";
-import {ThemeProvider} from "./components/ThemeProvider"
+import {ThemeProvider} from "../components/provider/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["200","300","400","500"], style: "normal" });

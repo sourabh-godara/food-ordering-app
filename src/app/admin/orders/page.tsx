@@ -20,13 +20,11 @@ import {
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -99,7 +97,7 @@ export const columns: ColumnDef<Order>[] = [
   },
 
   {
-    accessorKey: "name",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
         <Button

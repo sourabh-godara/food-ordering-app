@@ -1,7 +1,6 @@
 import React from "react";
-import Overview from "../components/AdminOverview";
-import RecentSales from "../components/AdminRecentSales";
-import Header from "../components/AdminHeader";
+import Overview from "../../components/layout/AdminOverview";
+import RecentSales from "../../components/layout/AdminRecentSales";
 import {
   Card,
   CardContent,
@@ -9,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {OverviewCards} from "../components/AdminCards";
+import {OverviewCards} from "../../components/layout/AdminCards";
 
-export default function page() {
+export default async function page() {
+
   return (
     <>
       <OverviewCards />

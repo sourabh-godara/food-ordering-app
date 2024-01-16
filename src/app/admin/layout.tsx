@@ -1,9 +1,17 @@
-import AdminHeader from "../components/AdminHeader";
-import AdminSidebar from "../components/AdminSidebar";
+import type { Metadata } from "next";
+import AdminHeader from "../../components/layout/AdminHeader";
+import AdminSidebar from "../../components/layout/AdminSidebar";
 
-export default function Layout({ children }: {
+export const metadata: Metadata = {
+  title: "Admin Dashboard",
+  description: "Food Ordering Website Dashboard",
+};
+export default async function Layout({ children }: {
+  
   children: React.ReactNode;
-}) {
+})
+ {
+  
   return (
     <>
       <main className="flex gap-4">
