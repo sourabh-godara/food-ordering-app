@@ -38,12 +38,12 @@ export default function page() {
                         <form action={registerUser} className="mt-4 lg:mt-7 ">
                         <div className="">
                                 <input type="text"
-                                    className="w-full px-4 py-3 mt-2 bg-gray-200 rounded-lg lg:py-5"
+                                    className="w-full px-4 py-3 mt-2 rounded-lg lg:py-5"
                                     name="name" placeholder="Enter your Username"/>
                             </div>
                             <div className="mt-4">
                                 <input type="email"
-                                    className="w-full px-4 py-3 mt-2 bg-gray-200 rounded-lg lg:py-5"
+                                    className="w-full px-4 py-3 mt-2 rounded-lg lg:py-5"
                                     name="email" placeholder="Enter your email"/>
                             </div>
                             <div className="mt-4 lg:mt-7">

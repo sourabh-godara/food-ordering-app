@@ -4,7 +4,6 @@ import Categories from "@/components/layout/Categories";
 import { Button } from "@/components/ui/button";
 //bg white dark
 
-
 export default async function page() {
   async function fetchProducts() {
     "use server";
@@ -19,16 +18,16 @@ export default async function page() {
   return (
     <>
       <Categories />
-      <h2 className="text-lg md:text-2xl font-semibold mt-6 p-3">
+      <h2 className="text-lg font-medium md:text-2xl md:font-semibold mt-6 p-1 md:p-3">
         Best of Combos ( Upto 20% OFF)
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-6 gap-8 m-auto w-fit">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-6 gap-2 md:gap-8 m-auto ">
         {data.map((product, index) => {
           return (
             <>
               <div
                 key={index}
-                className="grid shadow grid-rows-2 gap-2 cursor-pointer bg-white dark:bg-accent rounded-xl items-center w-64"
+                className="grid shadow grid-rows-2 md:grid-rows-none cursor-pointer bg-white dark:bg-accent rounded-xl w-[10.5rem] m-auto md:w-52 h-64 md:h-80 "
               >
                 <div className="relative h-36 ">
                   <Image
@@ -38,21 +37,21 @@ export default async function page() {
                     alt="product"
                   />
                 </div>
-                <div className="p-2 grid grid-rows-2 gap-1">
+                <div className="p-1 md:p-2 grid grid-rows-2 md:grid-rows-1 mt-4 md:mt-0">
                   <div>
-                    <h2 className="line-clamp-2 px-2 text-base md:text-lg font-semibold">
+                    <h2 className="line-clamp-2 px-1 text-sm md:text-base font-medium md:font-semibold">
                       {product.name}
                     </h2>
                   </div>
                   <div>
-                    <p className="line-clamp-3 font-medium text-xs md:text-sm px-2 opacity-80">
+                    <p className="line-clamp-2 md:line-clamp-3 mt-1 md:mt-2 font-medium text-xs md:text-xs px-1 opacity-80">
                       {product.description}
                     </p>
                   </div>
-                  <div className="w-full flex justify-between px-3 mt-2 ">
-                    <h3 className="text-base md:text-xl font-semibold">$154</h3>
-                    <Button>Add</Button>
-                  </div>
+                </div>
+                <div className="w-full flex justify-between items-center px-2 md:px-3 ">
+                  <h3 className="text-base md:text-lg font-semibold">$154</h3>
+                  <Button className="mb-3">Add</Button>
                 </div>
               </div>
             </>

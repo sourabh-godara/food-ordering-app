@@ -15,12 +15,12 @@ export default async function Categories() {
   const { data } = await fetchCategory();
   return (
     <>
-      <div className="flex flex-wrap gap-8 mt-10 p-4">
+      <div className="grid grid-flow-col gap-6 justify-start overflow-x-auto overflow-y-hidden md:overflow-auto mt-10 p-2 md:p-4">
         {data.map((category, index) => {
           return (
             <div
               key={index}
-              className="flex bg-accent p-2 hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-full sm:w-1/3 lg:w-1/6"
+              className="flex bg-accent p-2 md:hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-28 md:w-40"
             >
               <div className="rounded-xl p-3">
                 <Image
@@ -33,7 +33,7 @@ export default async function Categories() {
               </div>
               <div className="text-sm flex flex-col leading-5 items-center gap-3">
                 <div>
-                  <div className="font-medium text-center line-clamp-3">
+                  <div className="font-medium text-xs md:text-sm text-center line-clamp-3">
                     {category.name}
                   </div>
                 </div>

@@ -8,7 +8,7 @@ export default async function Layout({
 }) {
   return (
     <>
-    <div className="max-w-6xl m-auto p-5">
+    <div className="max-w-6xl m-auto p-2 md:p-5">
       <Navbar />
         {children}
         <Footer />

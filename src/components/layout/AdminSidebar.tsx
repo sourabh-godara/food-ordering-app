@@ -18,7 +18,7 @@ import Link from "next/link";
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <div className={cn("pb-12")}>
+    <div className={cn("pb-12 hidden md:inline-block")}>
       <div className="space-y-4 py-5">
         <div className="px-3 py-3">
           <h2 className="mb-3 px-4 text-xl font-semibold tracking-tight">

@@ -32,7 +32,7 @@ export default function Page() {
                                 <input type=""
                                  onChange={(e)=>setEmail(e.target.value)}
                                  value={email}
-                                    className="w-full px-4 py-3 mt-2 bg-gray-200 rounded-lg lg:py-5"
+                                    className="w-full px-4 py-3 mt-2  rounded-lg lg:py-5"
                                     name="email" placeholder="Enter your email"/>
                             </div>
                             <div className="mt-4 lg:mt-7">
@@ -41,7 +41,7 @@ export default function Page() {
                                         <input type="password"
                                         onChange={(e)=>setPassword(e.target.value)}
                                         value={password}
-                                            className="w-full px-4 py-3 bg-gray-200 rounded-lg lg:py-5 "
+                                            className="w-full px-4 py-3  rounded-lg lg:py-5 "
                                             name="password" placeholder="Enter password"/>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             className="absolute right-0 mr-3" fill="currentColor"
@@ -70,7 +70,7 @@ export default function Page() {
                                 type="submit">LOGIN</button>
                                 <button
                                 onClick={()=>signIn('google',{callbackUrl:'/'})}
-                                className="w-full py-3 text-lg font-bold rounded-md lg:mt-7 mt-7 px-11 md:mt-7 bg-gray-200"
+                                className="w-full py-3 text-lg font-bold rounded-md lg:mt-7 mt-7 px-11 md:mt-7 bg-primary"
                                 type="submit">Sign in with Google</button>
                             <p className="mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base">
                                 Need an account? &nbsp;
