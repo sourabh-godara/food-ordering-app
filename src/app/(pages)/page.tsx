@@ -7,7 +7,6 @@ export default function Home() {
   
   return (
     <main>
-      hi
     <HeroSection />
     <BestSellers />
     <div className="w-11/12 m-auto grid grid-cols-2 bg-accent mt-10 p-7 rounded-2xl">
