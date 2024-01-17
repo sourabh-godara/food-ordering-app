@@ -9,7 +9,7 @@ export default function Home() {
     <main>
     <HeroSection />
     <BestSellers />
-    <div className="w-11/12 m-auto grid grid-cols-2 bg-accent mt-10 p-7 rounded-2xl">
+    {/* <div className="w-11/12 m-auto grid grid-cols-2 bg-accent mt-10 p-7 rounded-2xl">
       <div className="flex flex-col gap-6">
         <span className="text-2xl">Special Offer!</span>
         <h2 className="font-bold text-4xl">
@@ -27,7 +27,7 @@ export default function Home() {
           alt="burgers"
         />
       </div>
-    </div>
+    </div> */}
   </main>
   )
 }

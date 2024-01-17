@@ -2,6 +2,8 @@ import Image from "next/image";
 import React from "react";
 import Categories from "@/components/layout/Categories";
 import { Button } from "@/components/ui/button";
+//bg white dark
+
 
 export default async function page() {
   async function fetchProducts() {
@@ -26,7 +28,7 @@ export default async function page() {
             <>
               <div
                 key={index}
-                className="grid shadow grid-rows-2 gap-2 cursor-pointer bg-white rounded-xl items-center w-64"
+                className="grid shadow grid-rows-2 gap-2 cursor-pointer bg-white dark:bg-accent rounded-xl items-center w-64"
               >
                 <div className="relative h-36 ">
                   <Image

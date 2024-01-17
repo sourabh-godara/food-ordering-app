@@ -20,7 +20,7 @@ export default async function Categories() {
           return (
             <div
               key={index}
-              className="flex bg-white p-2 hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-full sm:w-1/3 lg:w-1/6"
+              className="flex bg-accent p-2 hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-full sm:w-1/3 lg:w-1/6"
             >
               <div className="rounded-xl p-3">
                 <Image

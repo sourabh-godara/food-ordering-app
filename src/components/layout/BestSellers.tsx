@@ -17,7 +17,7 @@ export default async function BestSellers() {
     <>
       <h3 className="text-center font-bold text-4xl mt-8">Menu</h3>
       <section className="flex gap-14 mt-10 justify-center">
-        <div className="flex flex-wrap gap-12">
+        <div className="grid grid-flow-col gap-4 overflow-scroll md:overflow-auto ">
           {data
             .filter((items, index) => index < 5)
             .map((category) => {
