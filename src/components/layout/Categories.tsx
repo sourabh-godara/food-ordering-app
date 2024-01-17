@@ -4,9 +4,11 @@ import React from "react";
 export default async function Categories() {
   async function fetchCategory() {
     "use server";
-    const data = await fetch("http://localhost:8080/api/product/category", {
+    const data = await fetch(`${process.env.BASE_URL}api/product/category`,{
       method: "GET",
-    });
+      cache: 'no-store',
+      next: { tags: ['category']}
+    })
     const category = data.json();
     return category;
   }

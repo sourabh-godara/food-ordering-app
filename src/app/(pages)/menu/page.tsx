@@ -3,15 +3,14 @@ import React from "react";
 import Categories from "@/components/layout/Categories";
 import { Button } from "@/components/ui/button";
 
-export default async function Page() {
+export default async function page() {
   async function fetchProducts() {
     "use server";
     const data = await fetch(`${process.env.BASE_URL}api/product/all`, {
       method: "GET",
-      cache:'no-store',
-      next: { tags: ["products"] },
+      cache: "no-store",
     });
-    const products = await data.json();
+    const products = data.json();
     return products;
   }
   const { data } = await fetchProducts();
