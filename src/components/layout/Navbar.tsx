@@ -17,7 +17,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Navbar() {
   const session  =  await getServerSession(authOptions);
-  console.log("Navbar rendered")
   return (
     <nav className="flex  justify-between">
       <div className="flex gap-24 items-center">
@@ -42,7 +41,7 @@ export default async function Navbar() {
                   <Avatar>
                     <AvatarImage src={session?.user?.image} />
                     <AvatarFallback>
-                      {session?.user?.name/* .match(/[A-Z]/g).join("") */}
+                      {session?.user?.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
