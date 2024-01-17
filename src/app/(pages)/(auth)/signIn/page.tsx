@@ -8,12 +8,9 @@ export default function Page() {
     const { status } = useSession();
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-
     if(status === 'authenticated') {
         return redirect('/')
     }
-
-
     async function handleLogin(e:Event){
         e.preventDefault();
        await signIn('credentials',{email,password,callbackUrl:'/'})

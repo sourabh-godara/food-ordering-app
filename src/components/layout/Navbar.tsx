@@ -42,7 +42,7 @@ export default async function Navbar() {
                   <Avatar>
                     <AvatarImage src={session?.user?.image} />
                     <AvatarFallback>
-                      {session?.user?.name.match(/[A-Z]/g).join("")}
+                      {session?.user?.name/* .match(/[A-Z]/g).join("") */}
                     </AvatarFallback>
                   </Avatar>
                 </div>
