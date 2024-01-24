@@ -26,7 +26,7 @@ export default async function Navbar() {
         </Link>
         <div className="md:flex hidden gap-12 font-medium antialiased ">
           <Link href={"/"}>Home</Link>
-          <Link href={"/menu"}>Menu</Link>
+          <Link href={"/menu/Best of Combos"}>Menu</Link>
           <Link href={"/user/orders"}>Orders</Link>
           <Link href={"/about"}>About</Link>
         </div>

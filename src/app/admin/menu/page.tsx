@@ -5,7 +5,6 @@ import { fetchCategories } from "../actions/actions";
 
 export default async function page() {
   const {data} = await fetchCategories();
-  console.log('menu page')
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
