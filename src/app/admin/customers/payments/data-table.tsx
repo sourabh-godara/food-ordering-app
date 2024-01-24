@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border p-4">
+    <div className="rounded-md border p-4 bg-white shadow">
       <CardHeader className="p-1">
             <CardTitle>Users List</CardTitle>
             <CardDescription>You made 265 sales this month.</CardDescription>

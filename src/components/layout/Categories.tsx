@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default async function Categories() {
@@ -18,7 +19,7 @@ export default async function Categories() {
       <div className="grid grid-flow-col gap-6 justify-start overflow-x-auto overflow-y-hidden md:overflow-auto mt-10 p-2 md:p-4">
         {data.map((category, index) => {
           return (
-            <div
+            <Link href={`/menu/${category.name}`}
               key={index}
               className="flex bg-accent p-2 md:hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-28 md:w-40"
             >
@@ -38,7 +39,7 @@ export default async function Categories() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

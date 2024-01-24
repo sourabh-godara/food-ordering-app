@@ -1,6 +1,4 @@
-import { imageUpload } from "@/lib/imageUpload";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 
 import {
   Card,
@@ -36,6 +34,7 @@ import {
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { SubmitButton } from "../ui/submit-button";
 import { revalidateTag } from "next/cache";
+import { createCategory } from "@/app/admin/actions/actions";
 
 const invoices = [
   {
@@ -71,34 +70,6 @@ const invoices = [
 ];
 export default async function CategoriesTable({category}:any) {
   
-  async function createCategory(formData: FormData) {
-    "use server";
-    
-    const formParse = z.object({
-      name: z
-        .string()
-        .min(1)
-        .max(30, { message: "Maximum 30 Characters are allowed" }),
-      imageUrl: z.string().url(),
-    });
-    const name = formData.get("name") as String;
-    const image = formData.get("image") as File;
-    const imageUrl =  "http://localhost:8080/api/product/category/create"/* await imageUpload(image) */; 
-    const safeParsed = formParse.safeParse({
-      name,
-      imageUrl,
-    });
-    if (safeParsed.success) {
-      fetch("http://localhost:8080/api/product/category/create", {
-        method: "POST",
-        cache: "no-store",
-        body: JSON.stringify(safeParsed.data),
-      });
-      revalidateTag('category')
-    } else {
-      console.log(safeParsed.error);
-    }
-  }
   return (
     <Card className="p-4">
       <div className="flex justify-between items-center">
@@ -111,7 +82,7 @@ export default async function CategoriesTable({category}:any) {
         <div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant={"outline"}>Add Category</Button>
+              <Button >Add Category</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
