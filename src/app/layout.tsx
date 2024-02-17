@@ -5,6 +5,7 @@ import SessionProvider from "../components/provider/SessionProvider"
 import "./globals.css";
 import {ThemeProvider} from "../components/provider/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["200","300","400","500"], style: "normal" });
 
@@ -12,12 +13,13 @@ export const metadata: Metadata = {
   title: "Food Ordering App",
   description: "Food Ordering Website Using Next JS",
 };
+
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={poppins.className}>

@@ -23,7 +23,7 @@ export default async function BestSellers() {
             .map((category) => {
               return (
                 <>
-                  <div className="flex cursor-pointer shadow items-center  rounded-xl flex-col gap-2 h-44 w-36 ">
+                  <div key={category._id} className="flex cursor-pointer shadow items-center  rounded-xl flex-col gap-2 h-44 w-36 ">
                     <div className="bg-accent rounded-xl p-3">
                       <Image
                         src={category.imageUrl}
