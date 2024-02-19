@@ -10,7 +10,7 @@ export default async function connectDB() {
     await mongoose.connect(connectionString);
     mongoose.connection.on(
       "error",
-      console.error.bind(console, "MongoDB connection error:")
+      console.error.bind(console, "MongoDB connection error")
     );
     mongoose.connection.on("disconnected", connectDB);
   } catch (error) {
