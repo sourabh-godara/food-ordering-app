@@ -41,27 +41,27 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border p-4 bg-white shadow">
-      <CardHeader className="p-1">
-            <CardTitle>Users List</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
-          </CardHeader>
-      <div className="flex items-center py-2 mt-2">
+    <div className='rounded-md border p-4 shadow'>
+      <CardHeader className='p-1'>
+        <CardTitle>Users List</CardTitle>
+        <CardDescription>You made 265 sales this month.</CardDescription>
+      </CardHeader>
+      <div className='flex items-center py-2 mt-2'>
         <Input
-          placeholder="Filter emails..."
+          placeholder='Filter emails...'
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className='max-w-sm'
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+            <Button variant='outline' className='ml-auto'>
+              Columns <ChevronDownIcon className='ml-2 h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align='end'>
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -69,12 +69,11 @@ export function DataTable<TData, TValue>({
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className='capitalize'
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }
-                  >
+                    }>
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 );
@@ -106,10 +105,9 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
+                data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className=" p-3">
+                  <TableCell key={cell.id} className=' p-3'>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -117,7 +115,7 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
                 No results.
               </TableCell>
             </TableRow>

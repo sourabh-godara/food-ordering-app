@@ -1,55 +1,41 @@
-import { Payment, columns } from "./payments/columns";
+import { columns } from "./payments/columns";
 import { DataTable } from "./payments/data-table";
-import { CustomerCards } from "../../../components/layout/AdminCards";
+import { CustomerCards } from "../layout/OverviewCards";
+import connectDB from "@/lib/connectDB";
+import { User } from "@/app/api/models/userModel";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      name: "Sourabh",
-      amount: 100,
-      status: "pending",
-      role: "admin",
-      email: "godarasourav181@gmail.com",
-    },
-    {
-      id: "728ed52p",
-      name: "Shubh",
-      amount: 200,
-      status: "pending",
-      role: "user",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52i",
-      name: "Vishal",
-      amount: 500,
-      status: "pending",
-      role: "user",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed59f",
-      name: "Sahil",
-      amount: 150,
-      status: "pending",
-      role: "user",
-      email: "m@example.com",
-    },
-    // ...
-  ];
+async function getData() {
+  "use server";
+  try {
+    await connectDB();
+    const res = await User.find();
+    return { data: res, error: null };
+  } catch (error) {
+    console.log("Error fetching categories ", error);
+    return { data: null, error: true };
+  }
 }
 
-export default async function DemoPage() {
-  const data = await getData();
-
+export default async function Page() {
+  const { data, error } = await getData();
+  if (error) {
+    return (
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='text-4xl font-bold text-gray-900'>
+          Something went wrong!
+        </h1>
+      </div>
+    );
+  }
   return (
     <>
-      <div className="w-[80vw] mt-7">
+      <div className='w-[80vw] mt-7'>
         <CustomerCards />
-        <div className="w-[60vw] py-8">
-          <DataTable columns={columns} data={data} />
+        <div className='w-[60vw] py-8'>
+          <DataTable
+            columns={columns}
+            data={JSON.parse(JSON.stringify(data))}
+          />
         </div>
       </div>
     </>

@@ -18,26 +18,26 @@ export default function AdminHeader() {
   const { setTheme } = useTheme();
   return (
     <>
-      <div className="flex justify-between mb-4">
+      <div className='flex justify-between mb-4'>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight p-1">
+          <h2 className='text-2xl font-bold tracking-tight p-1'>
             Welcome back!
           </h2>
-          <p className="text-muted-foreground text-sm p-1">
+          <p className='text-muted-foreground text-sm p-1'>
             Here&apos;s a list of your tasks for this month!
           </p>
         </div>
-        <div className="flex gap-5">
+        <div className='flex gap-5'>
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                  <span className="sr-only">Toggle theme</span>
+                <Button variant='outline' size='icon'>
+                  <SunIcon className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+                  <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+                  <span className='sr-only'>Toggle theme</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align='end'>
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                   Light
                 </DropdownMenuItem>
@@ -55,20 +55,19 @@ export default function AdminHeader() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
-                >
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage src="/avatars/03.png" alt="@shadcn" />
+                  variant='ghost'
+                  className='relative h-8 w-8 rounded-full'>
+                  <Avatar className='h-9 w-9'>
+                    <AvatarImage src='/avatars/03.png' alt='@shadcn' />
                     <AvatarFallback>SC</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Sourabh</p>
-                    <p className="text-xs leading-none text-muted-foreground">
+              <DropdownMenuContent className='w-56' align='end' forceMount>
+                <DropdownMenuLabel className='font-normal'>
+                  <div className='flex flex-col space-y-1'>
+                    <p className='text-sm font-medium leading-none'>Sourabh</p>
+                    <p className='text-xs leading-none text-muted-foreground'>
                       godarasourav181@gmail.com
                     </p>
                   </div>

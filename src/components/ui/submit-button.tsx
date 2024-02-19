@@ -8,10 +8,9 @@ export function SubmitButton() {
 
   return (
     <Button
-      type="submit"
-      disabled={pending}
-      className=" hover:bg-red-700 disabled:bg-red-800"
-    >
+      type='submit'
+      aria-disabled={pending}
+      className=' hover:bg-red-700 disabled:bg-red-800'>
       Add
     </Button>
   );

@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth";
 import mongoose from "mongoose";
 import { User } from "../../models/userModel";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/MongoAdapter";
 
@@ -23,10 +23,10 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role:profile.role ?? 'user'
-        }
+          role: profile.role ?? "user",
+        };
       },
-      
+
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
@@ -40,26 +40,29 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         const email = credentials?.email;
         const password = credentials?.password;
+        try {
+          mongoose.connect(process.env.MONGO_URL);
+          const user = await User.findOne({ email });
+          const passwordOk =
+            user && bcrypt.compareSync(password, user.password);
 
-        mongoose.connect(process.env.MONGO_URL);
-        const user = await User.findOne({ email });
-        const passwordOk = user && bcrypt.compareSync(password, user.password);
-
-        if (passwordOk) {
-          return user;
-        } else {
-          return null;
+          if (passwordOk) {
+            return user;
+          } else {
+            return null;
+          }
+        } catch (error) {
+          throw new Error(error);
         }
       },
     }),
   ],
 
   callbacks: {
-    
     session({ session, user }) {
       session.user.role = user.role;
-      return session
-    }
+      return session;
+    },
   },
 };
 const handler = NextAuth(authOptions);

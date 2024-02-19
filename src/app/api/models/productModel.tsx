@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -28,25 +28,16 @@ const productSchema = new mongoose.Schema(
     ],
     imageUrl: {
       type: String,
-
     },
     category: {
-      /* type:mongoose.SchemaTypes.ObjectId, */
-      type:String,
-      /* ref: "Category", */
+      type: mongoose.SchemaTypes.ObjectId,
+      //type:String,
+      ref: "Category",
       //required: [true, "Product must belong to a category"],
-    },
-    isCombo: {
-      type: Boolean,
-      default: false,
-    },
-    quantity: {
-      type: Number,
-      required: [true, "Please add a quantity"],
-      default: 1,
     },
   },
   { timestamps: true }
 );
 
-export const Product =  mongoose.models.Product || mongoose.model('Product', productSchema);
+export const Product =
+  mongoose.models.Product || mongoose.model("Product", productSchema);
