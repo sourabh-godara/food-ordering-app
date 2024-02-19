@@ -21,8 +21,6 @@ import { z } from "zod";
 import { SubmitButton } from "../../../../components/ui/submit-button";
 import setPrices from "../../libs/setPrices";
 import { Product } from "@/app/api/models/productModel";
-import { ShowToast } from "../../libs/ShowToast";
-
 async function createItem(formData: FormData) {
   "use server";
   const formParse = z.object({
@@ -54,7 +52,7 @@ async function createItem(formData: FormData) {
       errors: safeParsed.error.flatten().fieldErrors,
     };
   } else {
-    //await Product.create(safeParsed.data);
+    await Product.create(safeParsed.data);
   }
 }
 export default async function MenuForm({ category }: any) {
