@@ -8,10 +8,7 @@ export default async function page({
 }: {
   params: { category: string };
 }) {
-  let newParam = params.category
-    .replace("%20", " ")
-    .replace("%20", " ")
-    .replace("%26%20", "& ");
+  let newParam = "whoop";
   return (
     <>
       <Categories />
