@@ -109,7 +109,7 @@ export default async function CategoriesTable({ category }: any) {
         </TableHeader>
         <TableBody>
           {category?.map((category, index) => (
-            <TableRow key={index}>
+            <TableRow key={category._id}>
               <TableCell className='font-medium'>{index + 1}</TableCell>
               <TableCell className='px-5'>{category.name}</TableCell>
               <TableCell className='px-5'>
