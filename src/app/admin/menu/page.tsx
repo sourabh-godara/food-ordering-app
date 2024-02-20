@@ -29,8 +29,8 @@ export default async function page() {
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-        {/* <AdminMenuCategories category={data} />
-        <AdminMenuForm category={data} /> */}
+        <AdminMenuCategories category={data} />
+        <AdminMenuForm category={data} />
       </div>
     </>
   );
