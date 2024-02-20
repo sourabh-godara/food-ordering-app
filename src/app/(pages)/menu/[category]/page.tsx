@@ -15,9 +15,7 @@ export default async function page({
   return (
     <>
       <Categories />
-      <Suspense fallback={<Loading />}>
-        <ProductCard newParam={newParam} />
-      </Suspense>
+      <ProductCard newParam={newParam} />
     </>
   );
 }

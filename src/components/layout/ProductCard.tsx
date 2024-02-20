@@ -3,6 +3,11 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import connectDB from "@/lib/connectDB";
 import { Product } from "@/app/api/models/productModel";
+import { Cart } from "@/app/api/models/cartModel";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
+import { fetchCart } from "../ui/CartModal";
 
 async function fetchProducts(newParam) {
   "use server";
@@ -17,8 +22,48 @@ async function fetchProducts(newParam) {
 }
 async function addToCart(formData: FormData) {
   "use server";
-  const id = formData.get("productid");
-  const product = await Product.findById(id);
+  const { user } = await getServerSession(authOptions);
+  if (user.id) {
+    const id = formData.get("productid");
+    const cartExists = await Cart.find({ userId: user.id });
+    if (cartExists) {
+      await Cart.findOneAndUpdate(
+        { userId: user.id },
+        {
+          $push: {
+            items: {
+              productId: id,
+              quantity: 1,
+            },
+          },
+          $inc: { total_quantity: 1 },
+        },
+        {
+          upsert: true,
+        }
+      );
+    } else {
+      try {
+        const cartItem = new Cart({
+          userId: user.id,
+          items: [
+            {
+              productId: id,
+              quantity: 1,
+            },
+          ],
+        });
+        await cartItem.save();
+      } catch (error) {
+        console.log("Error adding to cart", error.message);
+      }
+    }
+  }
+  return (
+    <>
+      <div>Something Went Wrong!</div>
+    </>
+  );
 }
 async function ProductCard({ newParam }) {
   const { data, error } = await fetchProducts(newParam);
@@ -68,7 +113,7 @@ async function ProductCard({ newParam }) {
                   <form action={addToCart}>
                     <Button
                       type='submit'
-                      value={product._id}
+                      value={JSON.parse(JSON.stringify(product._id))}
                       name='productid'
                       className='mb-3'>
                       Add
