@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth";
 import mongoose from "mongoose";
 import { User } from "../../models/userModel";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/MongoAdapter";
 
