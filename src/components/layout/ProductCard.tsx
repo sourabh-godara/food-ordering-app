@@ -68,7 +68,7 @@ async function ProductCard({ newParam }) {
                   <form action={addToCart}>
                     <Button
                       type='submit'
-                      value={JSON.parse(product._id.toString())}
+                      value={product._id}
                       name='productid'
                       className='mb-3'>
                       Add
