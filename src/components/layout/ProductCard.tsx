@@ -7,7 +7,6 @@ import { Product } from "@/app/api/models/productModel";
 async function fetchProducts(newParam) {
   "use server";
   try {
-    console.log(newParam);
     await connectDB();
     const res = await Product.find({ category: newParam });
     return { data: res, error: null };
@@ -20,7 +19,6 @@ async function addToCart(formData: FormData) {
   "use server";
   const id = formData.get("productid");
   const product = await Product.findById(id);
-  console.log(product);
 }
 async function ProductCard({ newParam }) {
   const { data, error } = await fetchProducts(newParam);
@@ -70,7 +68,7 @@ async function ProductCard({ newParam }) {
                   <form action={addToCart}>
                     <Button
                       type='submit'
-                      value={product._id}
+                      value={JSON.parse(product._id.toString())}
                       name='productid'
                       className='mb-3'>
                       Add

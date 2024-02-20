@@ -34,7 +34,7 @@ async function createItem(formData: FormData) {
   const description = formData.get("description");
   const category = formData.get("category");
   const price = formData.getAll("price");
-  // const prices = await setPrices(price);
+  const prices = await setPrices(price);
   const image = formData.get("image") as File;
 
   const imageUrl =
@@ -43,7 +43,7 @@ async function createItem(formData: FormData) {
     name,
     description,
     category,
-    //prices,
+    prices,
     imageUrl,
   });
   if (safeParsed.success === false) {
