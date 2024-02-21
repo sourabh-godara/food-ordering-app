@@ -12,27 +12,26 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Cart } from "@/app/api/models/cartModel";
-import { Product } from "@/app/api/models/productModel";
-import { Button } from "./button";
+import { revalidateTag } from "next/cache";
 
 async function fetchCart() {
   "use server";
   const { user } = await getServerSession(authOptions);
-  if (user.id) {
+  if (user) {
     try {
-      let { items } = await Cart.findOne({ userId: user.id });
-      const productPromises = items.map(async (item) => {
-        const products = await Product.findById(item.productId);
-        return { ...item, products };
+      const res = await fetch(`${process.env.BASE_URL}api/cart`, {
+        body: JSON.stringify(user.id),
+        next: { tags: ["cart"] },
+        method: "POST",
+        credentials: "include",
       });
-      const cartItems = await Promise.all(productPromises);
-      return { data: cartItems, error: null };
+      const { data } = await res.json();
+      return { data: data, error: true };
     } catch (error) {
-      console.log("Error fetching cart", error.message);
+      console.log(error);
       return { data: null, error: true };
     }
   }
-  return { data: null, error: true };
 }
 
 async function removeFromcart(formData: FormData) {
@@ -52,6 +51,8 @@ async function removeFromcart(formData: FormData) {
     }
   } catch (error) {
     console.error("Error deleting item from the cart:", error);
+  } finally {
+    revalidateTag("cart");
   }
 }
 export default async function CartModal() {

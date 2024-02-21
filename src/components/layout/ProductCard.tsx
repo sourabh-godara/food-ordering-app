@@ -6,8 +6,7 @@ import { Product } from "@/app/api/models/productModel";
 import { Cart } from "@/app/api/models/cartModel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getToken } from "next-auth/jwt";
-import { fetchCart } from "../ui/CartModal";
+import { revalidateTag } from "next/cache";
 
 async function fetchProducts(newParam) {
   "use server";
@@ -58,6 +57,7 @@ async function addToCart(formData: FormData) {
         console.log("Error adding to cart", error.message);
       }
     }
+    revalidateTag("cart");
   }
   return (
     <>
