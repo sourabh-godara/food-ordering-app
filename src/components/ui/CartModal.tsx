@@ -25,13 +25,17 @@ async function fetchCart() {
         method: "POST",
         credentials: "include",
       });
-      const { data } = await res.json();
-      return { data: data, error: true };
+      const { data, error } = await res.json();
+      if (error) {
+        return { data: null, error: true };
+      }
+      return { data: data, error: false };
     } catch (error) {
       console.log(error);
       return { data: null, error: true };
     }
   }
+  return { data: null, error: true };
 }
 
 async function removeFromcart(formData: FormData) {
@@ -82,7 +86,7 @@ export default async function CartModal() {
                     />
                   </div>
                   <div className='flex flex-col gap-1'>
-                    <h1 className='text-sm text-wrap line-clamp-2'>
+                    <h1 className='text-sm text-wrap line-clamp-1'>
                       {item.products.name}
                       <span className='text-gray-500 text-sm'>
                         x{item.products.quantity}

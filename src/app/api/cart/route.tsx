@@ -3,6 +3,9 @@ import { Product } from "../models/productModel";
 
 export async function POST(req: Request, res) {
   const userId = await req.json();
+  if (!userId) {
+    return Response.json({ data: null, error: true });
+  }
   try {
     let { items } = await Cart.findOne({ userId });
     const productPromises = items.map(async (item) => {

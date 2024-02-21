@@ -40,8 +40,8 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
+        <CartModal />
 
-        
         {session ? (
           <>
             <DropdownMenu>
