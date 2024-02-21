@@ -41,7 +41,7 @@ export default async function Navbar() {
           </Button>
         ) : null}
 
-        <CartModal />
+        
         {session ? (
           <>
             <DropdownMenu>
