@@ -126,7 +126,7 @@ export default async function MenuForm({ category }: any) {
               <Input
                 id='description'
                 name='description'
-                placeholder='Please include all information relevant to your issue.'
+                placeholder='Description for your item'
               />
             </div>
           </CardContent>
