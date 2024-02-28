@@ -8,6 +8,9 @@ import connectDB from "@/lib/connectDB";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/signIn", // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
