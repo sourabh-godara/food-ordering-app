@@ -22,7 +22,7 @@ const nextConfig = {
         hostname: "foody-website.s3.ap-south-1.amazonaws.com",
       },
     ],
-  }
+  },
 };
 
 module.exports = nextConfig;

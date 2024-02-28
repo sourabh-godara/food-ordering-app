@@ -13,8 +13,8 @@ import React from "react";
 import ClientButton from "./ClientButton";
 import CartModal from "../ui/CartModal";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Button } from "../ui/button";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);

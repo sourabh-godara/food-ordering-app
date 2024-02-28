@@ -1,47 +1,35 @@
-import type { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import NextAuth from "next-auth";
-import mongoose from "mongoose";
-import { User } from "../../models/userModel";
+import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "@/lib/MongoAdapter";
+
+import { User } from "../../models/userModel";
+import connectDB from "@/lib/connectDB";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: MongoDBAdapter(clientPromise),
-
-  pages: {
-    signIn: "/signIn",
-  },
   providers: [
     GoogleProvider({
-      profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-          role: profile.role ?? "user",
-        };
-      },
-
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
-      name: "credentials",
-      id: "credentials",
+      name: "Credentials",
+
       credentials: {
-        email: { label: "email", type: "email" },
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "example@gmail.com",
+        },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         const email = credentials?.email;
         const password = credentials?.password;
         try {
-          mongoose.connect(process.env.MONGO_URL);
+          await connectDB();
           const user = await User.findOne({ email });
           const passwordOk =
             user && bcrypt.compareSync(password, user.password);
@@ -52,19 +40,24 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
         } catch (error) {
+          console.log("Error While Logging In ", error);
           throw new Error(error);
         }
       },
     }),
   ],
-
   callbacks: {
-    session({ session, user }) {
-      session.user.role = user.role;
-      session.user.id = user.id;
+    async session({ session, user }) {
+      const sessionUser = await User.findOne({
+        email: session.user.email,
+      });
+      session.user.id = sessionUser._id.toString();
+      session.user.role = sessionUser.role;
       return session;
     },
   },
 };
+
 const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST };

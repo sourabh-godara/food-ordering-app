@@ -5,7 +5,6 @@ import SessionProvider from "../components/provider/SessionProvider";
 import "./globals.css";
 import { ThemeProvider } from "../components/provider/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,7 +22,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
   return (
     <html lang='en'>
       <body className={poppins.className}>
