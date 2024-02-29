@@ -40,7 +40,7 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
-        {/* <CartModal /> */}
+        <CartModal />
 
         {session ? (
           <>

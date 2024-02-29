@@ -29,7 +29,7 @@ export default function HeroSection() {
             src={"/Burger.png"}
             alt='burger'
             layout='fill'
-            objectFit='contain'
+            style={{ objectFit: "contain" }}
           />
         </div>
       </section>

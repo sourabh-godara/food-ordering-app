@@ -36,16 +36,14 @@ export default async function BestSellers() {
             .filter((items, index) => index < 5)
             .map((category) => {
               return (
-                <>
-                  <div
-                    key={category._id}
-                    className='flex cursor-pointer shadow items-center  rounded-xl flex-col gap-2 h-44 w-36 '>
+                <div key={category._id}>
+                  <div className='flex cursor-pointer shadow items-center  rounded-xl flex-col gap-2 h-44 w-36 '>
                     <div className='bg-accent rounded-xl p-3'>
                       <Image
                         src={category.imageUrl}
                         width={100}
                         height={100}
-                        objectFit='contain'
+                        style={{ objectFit: "contain" }}
                         alt='burgers'
                       />
                     </div>
@@ -57,7 +55,7 @@ export default async function BestSellers() {
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               );
             })}
 
