@@ -47,12 +47,12 @@ export default async function CartModal({ data }) {
           {data &&
             data?.map((item) => (
               <div
-                key={item._id}
+                key={item?._id}
                 className='flex gap-2 justify-between mt-6 bg-accent rounded-xl p-3'>
                 <div className='flex gap-4'>
                   <div className='relative w-10 scale-125'>
                     <Image
-                      src={item.products.imageUrl}
+                      src={item.products?.imageUrl}
                       layout='fill'
                       objectFit='contain'
                       alt='cart-product'
@@ -60,16 +60,16 @@ export default async function CartModal({ data }) {
                   </div>
                   <div className='flex flex-col gap-1'>
                     <h1 className='text-sm text-wrap line-clamp-1'>
-                      {item.products.name}
+                      {item.products?.name}
                       <span className='text-gray-500 text-sm'>
-                        x{item.products.quantity}
+                        x{item.products?.quantity}
                       </span>
                     </h1>
                     <h2 className='text-xs line-clamp-1 w-60'>
-                      {item.products.description}
+                      {item.products?.description}
                     </h2>
                     <h3 className=' font-medium text-sm'>
-                      ${item.products.prices[0].price}
+                      ${item.products?.prices[0].price}
                     </h3>
                   </div>
                 </div>
@@ -78,7 +78,7 @@ export default async function CartModal({ data }) {
                     <button
                       type='submit'
                       name='productId'
-                      value={item.products._id}>
+                      value={item.products?._id}>
                       <MdDeleteOutline size={20} />
                     </button>
                   </form>
