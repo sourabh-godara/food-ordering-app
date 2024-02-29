@@ -1,7 +1,7 @@
 import React from "react";
-import { IoBagOutline } from "react-icons/io5";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -9,34 +9,10 @@ import {
 } from "@/components/ui/sheet";
 import { MdDeleteOutline } from "react-icons/md";
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Cart } from "@/app/api/models/cartModel";
 import { revalidateTag } from "next/cache";
-
-async function fetchCart() {
-  "use server";
-  const { user } = await getServerSession(authOptions);
-  if (user) {
-    try {
-      const res = await fetch(`${process.env.BASE_URL}api/cart`, {
-        body: JSON.stringify(user.id),
-        next: { tags: ["cart"] },
-        method: "POST",
-        credentials: "include",
-      });
-      const { data, error } = await res.json();
-      if (error) {
-        return { data: null, error: true };
-      }
-      return { data: data, error: false };
-    } catch (error) {
-      console.log(error);
-      return { data: null, error: true };
-    }
-  }
-  return { data: null, error: true };
-}
+import { getServerSession } from "next-auth";
+import { Cart } from "@/app/api/models/cartModel";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function removeFromcart(formData: FormData) {
   "use server";
@@ -59,20 +35,17 @@ async function removeFromcart(formData: FormData) {
     revalidateTag("cart");
   }
 }
-export default async function CartModal() {
-  const { data, error } = await fetchCart();
+export default async function CartModal({ data }) {
   return (
-    <Sheet>
-      <SheetTrigger>
-        <IoBagOutline size={26} />
-      </SheetTrigger>
+    <Sheet open>
       <SheetContent>
         <SheetHeader>
           <SheetTitle className='m-auto text-xl'>Cart Items</SheetTitle>
+          <SheetClose asChild></SheetClose>
         </SheetHeader>
         <div className='grid'>
           {data &&
-            data.map((item) => (
+            data?.map((item) => (
               <div
                 key={item._id}
                 className='flex gap-2 justify-between mt-6 bg-accent rounded-xl p-3'>

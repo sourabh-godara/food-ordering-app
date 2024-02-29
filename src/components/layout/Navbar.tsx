@@ -15,6 +15,7 @@ import CartModal from "../ui/CartModal";
 import { getServerSession } from "next-auth";
 import { Button } from "../ui/button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { IoBagOutline } from "react-icons/io5";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -40,7 +41,9 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
-        <CartModal />
+        <Link href={"/cart"}>
+          <IoBagOutline size={26} />
+        </Link>
 
         {session ? (
           <>
