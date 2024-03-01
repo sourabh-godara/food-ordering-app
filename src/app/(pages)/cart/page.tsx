@@ -1,4 +1,4 @@
-import CartModal from "@/app/(pages)/cart/CartModal";
+import CartModal from "@/components/CartModal";
 import { redirect } from "next/navigation";
 
 export default function page() {

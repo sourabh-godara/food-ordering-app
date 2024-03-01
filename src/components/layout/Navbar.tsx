@@ -11,7 +11,7 @@ import {
 
 import React from "react";
 import ClientButton from "./ClientButton";
-import CartModal from "../../app/(pages)/cart/CartModal";
+import CartModal from "../CartModal";
 import { getServerSession } from "next-auth";
 import { Button } from "../ui/button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";

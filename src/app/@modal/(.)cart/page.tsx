@@ -1,9 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import CartModal from "@/app/(pages)/cart/CartModal";
+import CartModal from "@/components/CartModal";
 import { getServerSession } from "next-auth";
 import React from "react";
 async function fetchCart() {
-  "use server";
   const { user } = await getServerSession(authOptions);
   if (user) {
     try {
