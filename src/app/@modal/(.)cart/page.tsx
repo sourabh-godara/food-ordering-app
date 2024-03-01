@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import CartModal from "@/components/ui/CartModal";
+import CartModal from "@/app/(pages)/cart/CartModal";
 import { getServerSession } from "next-auth";
 import React from "react";
 async function fetchCart() {

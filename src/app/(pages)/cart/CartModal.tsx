@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetClose,
@@ -15,7 +17,7 @@ import { Cart } from "@/app/api/models/cartModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function removeFromcart(formData: FormData) {
-  "use server";
+  /*   "use server";
   const itemId = formData.get("productId");
   const { user } = await getServerSession(authOptions);
   try {
@@ -33,16 +35,20 @@ async function removeFromcart(formData: FormData) {
     console.error("Error deleting item from the cart:", error);
   } finally {
     revalidateTag("cart");
-  }
+  } */
 }
-export default async function CartModal({ data }) {
+export default function CartModal({ data }) {
+  const router = useRouter();
   return (
     <Sheet open>
       <SheetContent>
         <SheetHeader>
           <SheetTitle className='m-auto text-xl'>Cart Items</SheetTitle>
-          <SheetClose asChild></SheetClose>
+          <SheetClose asChild>
+            <button onClick={() => router.back()}>back</button>
+          </SheetClose>
         </SheetHeader>
+
         <div className='grid'>
           {data &&
             data?.map((item) => (
