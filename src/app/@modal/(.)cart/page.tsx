@@ -2,7 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CartModal from "@/components/ui/CartModal";
 import { getServerSession } from "next-auth";
 import React from "react";
-/* async function fetchCart() {
+async function fetchCart() {
   "use server";
   const { user } = await getServerSession(authOptions);
   if (user) {
@@ -23,11 +23,11 @@ import React from "react";
       return { data: null, error: true };
     }
   }
-  return { data: null, error: true };}
- */
+  return { data: null, error: true };
+}
+
 async function page() {
-  /* const { data, error } = await fetchCart(); */
-  const data = ["fwefwf", "fwefw"];
+  const { data, error } = await fetchCart();
   return <CartModal data={data} />;
 }
 
