@@ -1,9 +1,6 @@
-"use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -15,9 +12,33 @@ import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import { Cart } from "@/app/api/models/cartModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { IoBagOutline } from "react-icons/io5";
 
+async function fetchCart() {
+  const session = await getServerSession(authOptions);
+  if (session?.user) {
+    try {
+      const res = await fetch(`${process.env.BASE_URL}api/cart`, {
+        body: JSON.stringify(session.user?.id),
+        next: { tags: ["cart"] },
+        method: "POST",
+        credentials: "include",
+      });
+      const { data, error } = await res.json();
+
+      if (error) {
+        return { data: null, error: true };
+      }
+      return { data: data, error: false };
+    } catch (error) {
+      console.log(error);
+      return { data: null, error: true };
+    }
+  }
+  return { data: null, error: true };
+}
 async function removeFromcart(formData: FormData) {
-  /*   "use server";
+  "use server";
   const itemId = formData.get("productId");
   const { user } = await getServerSession(authOptions);
   try {
@@ -35,18 +56,18 @@ async function removeFromcart(formData: FormData) {
     console.error("Error deleting item from the cart:", error);
   } finally {
     revalidateTag("cart");
-  } */
+  }
 }
-export default function CartModal({ data }) {
-  const router = useRouter();
+export default async function CartModal() {
+  const { data, error } = await fetchCart();
   return (
-    <Sheet open>
+    <Sheet>
+      <SheetTrigger asChild>
+        <IoBagOutline size={26} />
+      </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle className='m-auto text-xl'>Cart Items</SheetTitle>
-          <SheetClose asChild>
-            <button onClick={() => router.back()}>back</button>
-          </SheetClose>
         </SheetHeader>
 
         <div className='grid'>
