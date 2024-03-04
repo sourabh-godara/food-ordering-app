@@ -3,16 +3,42 @@ import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
+import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
+import AlertError from "@/components/layout/AlertError";
+import { useFormStatus } from "react-dom";
+import { Button } from "@/components/ui/button";
+import Loading from "@/components/layout/Loading";
 
 export default function Page() {
   const { status } = useSession();
+  const { pending } = useFormStatus();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState("");
   if (status === "authenticated") {
     return redirect("/");
   }
   async function handleLogin(e: Event) {
     e.preventDefault();
+    const signinSchema = z.object({
+      email: z
+        .string()
+        .min(4, { message: "Enter a valid email." })
+        .email("This is not a valid email."),
+      password: z
+        .string()
+        .min(8, { message: "Password must be 8 or more characters long" })
+        .max(20),
+    });
+    try {
+      signinSchema.parse({ email, password });
+    } catch (error) {
+      const validationError = fromZodError(error);
+      const error_message = validationError.details[0].message;
+      setAlert(error_message);
+      return null;
+    }
     await signIn("credentials", { email, password, callbackUrl: "/" });
   }
   return (
@@ -25,6 +51,7 @@ export default function Page() {
                 <h2 className='mb-4 text-5xl font-bold  md:text-6xl'>
                   F<span className='text-primary'>oo</span>dy
                 </h2>
+                {alert ? <AlertError message={alert} /> : null}
                 <form onSubmit={handleLogin} className='mt-4 lg:mt-7 '>
                   <div className=''>
                     <input
@@ -72,30 +99,32 @@ export default function Page() {
                       Forgot Password?{" "}
                     </a>
                   </div>
-                  <button
-                    className='w-full py-3 text-lg font-bold text-gray-200 uppercase bg-primary rounded-md lg:mt-7 mt-7 px-11 md:mt-7 hover:bg-blue-900 dark:hover:bg-red-600'
-                    type='submit'>
-                    LOGIN
-                  </button>
-                  <button
-                    onClick={() =>
-                      signIn("google", {
-                        callbackUrl: "/",
-                      })
-                    }
-                    className='w-full py-3 text-lg font-bold rounded-md lg:mt-7 mt-7 px-11 md:mt-7 bg-primary'
-                    type='submit'>
-                    Sign in with Google
-                  </button>
-                  <p className='mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base'>
-                    Need an account? &nbsp;
-                    <Link
-                      href='/register'
-                      className='font-semibold text-primary hover:text-red-600'>
-                      Create an account
-                    </Link>
-                  </p>
+                  <Button
+                    className='w-full mt-6 disabled:bg-zinc-900 bg-accent hover:bg-zinc-700 transition-all duration-300'
+                    variant='ghost'
+                    type='submit'
+                    aria-disabled={pending}>
+                    {pending ? <Loading /> : "Login"}
+                  </Button>
                 </form>
+                <Button
+                  onClick={() =>
+                    signIn("google", {
+                      callbackUrl: "/",
+                    })
+                  }
+                  disabled={pending}
+                  className='w-full mt-2 hover:bg-red-700 transition-all duration-300'>
+                  Sign In With Google
+                </Button>
+                <p className='mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base'>
+                  Need an account? &nbsp;
+                  <Link
+                    href='/register'
+                    className='font-semibold text-primary hover:text-red-600'>
+                    Create an account
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

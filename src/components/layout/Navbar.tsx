@@ -26,10 +26,26 @@ export default async function Navbar() {
           dy
         </Link>
         <div className='md:flex hidden gap-12 font-medium antialiased '>
-          <Link href={"/"}>Home</Link>
-          <Link href={"/menu/Best of Combos"}>Menu</Link>
-          <Link href={"/user/orders"}>Orders</Link>
-          <Link href={"/about"}>About</Link>
+          <Link
+            href={"/"}
+            className='hover:text-red-800 transition-colors duration-200'>
+            Home
+          </Link>
+          <Link
+            href={"/menu/Best of Combos"}
+            className='hover:text-red-800 transition-colors duration-200'>
+            Menu
+          </Link>
+          <Link
+            href={"/user/orders"}
+            className='hover:text-red-800 transition-colors duration-200'>
+            Orders
+          </Link>
+          <Link
+            href={"/about"}
+            className='hover:text-red-800 transition-colors duration-200'>
+            About
+          </Link>
         </div>
       </div>
       <div className='flex gap-8 items-center '>
@@ -40,7 +56,7 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
-        {/* <CartModal /> */}
+        <span className=' hover:cursor-pointer'>{/* <CartModal /> */}</span>
 
         {session ? (
           <>

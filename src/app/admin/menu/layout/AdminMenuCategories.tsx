@@ -39,17 +39,16 @@ import { Category } from "@/app/api/models/categoryModel";
 
 async function createCategory(formData: FormData) {
   "use server";
-  const formParse = z.object({
+  const categorySchema = z.object({
     name: z
       .string()
       .min(1)
       .max(30, { message: "Maximum 30 Characters are allowed" }),
     imageUrl: z.string().url(),
   });
-  const name = formData.get("name") as String;
-  const image = formData.get("image") as File;
-  const imageUrl = await imageUpload(image);
-  const safeParsed = formParse.safeParse({
+  const { name, image } = Object.fromEntries(formData);
+  const imageUrl = "Uncomment"; /* await imageUpload(image); */
+  const safeParsed = categorySchema.safeParse({
     name,
     imageUrl,
   });

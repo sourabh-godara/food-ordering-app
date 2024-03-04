@@ -1,34 +1,31 @@
-import React from "react";
-import { z } from "zod";
+"use client";
+import React, { useState } from "react";
+import registerUser from "./register-action";
+import AlertError from "@/components/layout/AlertError";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import Link from "next/link";
 
-export default function page() {
-  const registerUser = async (formData: FormData) => {
-    "use server";
-    const registerParsed = z.object({
-      name: z.string().min(2).max(25),
-      email: z
-        .string()
-        .min(5, { message: "Please enter a valid mail id" })
-        .max(50)
-        .toLowerCase(),
-      password: z
-        .string()
-        .min(8, { message: "Password must be 8 or more characters long" })
-        .max(20),
-    });
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const safeParsed = registerParsed.safeParse({ name, email, password });
-    console.log("SAFE PARSE", safeParsed?.success);
-    if (safeParsed?.success) {
-      fetch(`${process.env.BASE_URL}api/register`, {
-        method: "POST",
-        cache: "no-store",
-        body: JSON.stringify(safeParsed.data),
+export default function Page() {
+  const [alert, setAlert] = useState("");
+  async function handleForm(formData: FormData) {
+    const res = await registerUser(formData);
+    if (!res.success) {
+      setAlert(res.message);
+    } else {
+      toast({
+        variant: "success",
+        title: "User Registered",
+        description: "Go To Login Page",
+        action: (
+          <ToastAction altText='login'>
+            <Link href={"/signIn"}>Log In</Link>
+          </ToastAction>
+        ),
       });
     }
-  };
+  }
+
   return (
     <section className='flex items-center justify-center h-screen font-poppins'>
       <div className='flex-1'>
@@ -39,12 +36,13 @@ export default function page() {
                 <h2 className='mb-4 text-4xl font-bold  md:text-6xl'>
                   F<span className='text-primary'>oo</span>dy
                 </h2>
-                {/*  <h3 className='text-3xl'>Login</h3> */}
-                <form action={registerUser} className='mt-4 lg:mt-7 '>
-                  <div className=''>
+                {alert ? <AlertError message={alert} /> : null}
+
+                <form action={handleForm} className='mt-4 lg:mt-7 '>
+                  <div>
                     <input
                       type='text'
-                      className='w-full px-4 py-3 mt-2 rounded-lg lg:py-5'
+                      className='w-full px-4 py-3 mt-1 rounded-lg lg:py-5'
                       name='name'
                       placeholder='Enter your Username'
                     />
@@ -62,7 +60,7 @@ export default function page() {
                       <div className='relative flex items-center'>
                         <input
                           type='password'
-                          className='w-full px-4 py-3 bg-gray-200 rounded-lg lg:py-5 '
+                          className='w-full px-4 py-3 rounded-lg lg:py-5 '
                           name='password'
                           placeholder='Enter password'
                         />

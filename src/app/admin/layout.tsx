@@ -4,6 +4,7 @@ import AdminHeader from "./layout/AdminHeader";
 import AdminSidebar from "./layout/AdminSidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -32,9 +33,5 @@ export default async function Layout({
       </>
     );
   }
-  return (
-    <>
-      <h1>You are not authorized to view this page!</h1>
-    </>
-  );
+  return notFound();
 }

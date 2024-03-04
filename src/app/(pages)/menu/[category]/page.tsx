@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Categories from "@/components/layout/Categories";
 import Loading from "@/components/layout/Loading";
-import ProductCard from "@/components/layout/ProductCard";
+import Products from "@/app/(pages)/menu/[category]/components/Products";
 
 export default async function page({
   params,
@@ -15,7 +15,9 @@ export default async function page({
   return (
     <>
       <Categories />
-      <ProductCard newParam={newParam} />
+      <Suspense fallback={<Loading />}>
+        <Products newParam={newParam} />
+      </Suspense>
     </>
   );
 }
