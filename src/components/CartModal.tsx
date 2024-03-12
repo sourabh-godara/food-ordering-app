@@ -2,6 +2,7 @@ import React from "react";
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -13,6 +14,7 @@ import { getServerSession } from "next-auth";
 import { Cart } from "@/app/api/models/cartModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { IoBagOutline } from "react-icons/io5";
+import { Button } from "./ui/button";
 
 async function fetchCart() {
   const session = await getServerSession(authOptions);
@@ -71,6 +73,7 @@ export default async function CartModal() {
         </SheetHeader>
 
         <div className='grid'>
+          {error && <div>Something went wrong </div>}
           {data &&
             data?.map((item) => (
               <div
@@ -112,6 +115,21 @@ export default async function CartModal() {
                 </div>
               </div>
             ))}
+        </div>
+        <div className='absolute bottom-6 w-full'>
+          <div>
+            <div className='mb-4 text-sm text-right mr-12'>
+              <div className='t'>
+                Total: <strong>$488</strong>
+              </div>
+              <div className='text-sm'>
+                Quantity: x <strong>{data.length}</strong>
+              </div>
+            </div>
+            <div className='flex items-center justify-center mr-7'>
+              <Button className='w-[90%]'>Checkout</Button>
+            </div>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

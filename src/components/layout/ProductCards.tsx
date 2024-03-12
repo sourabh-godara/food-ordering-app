@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import addToCart from "@/app/(pages)/menu/[category]/components/addTocart";
 import { toast } from "../ui/use-toast";
 import { Toaster } from "../ui/toaster";
+import { revalidateTag } from "next/cache";
 
 export default function ProductCards({ products }) {
   const { status, data } = useSession();
