@@ -7,12 +7,14 @@ export async function POST(req: Request, res) {
     return Response.json({ data: null, error: true });
   }
   try {
-    let { items } = await Cart.findOne({ userId });
-    const productPromises = items.map(async (item) => {
-      const products = await Product.findById(item.productId);
-      return { ...item, products };
-    });
-    const cartItems = await Promise.all(productPromises);
+    const { items } = await Cart.findOne({ userId });
+    console.log({ items });
+    let cartItems = [];
+
+    for (let i = 0; i < items.length; i++) {
+      cartItems[i] = await Product.findById(items[i].productId);
+    }
+
     return Response.json({ data: cartItems, error: null });
   } catch (error) {
     console.error(error);

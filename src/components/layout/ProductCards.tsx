@@ -38,7 +38,7 @@ export default function ProductCards({ products }) {
             <>
               <div
                 key={product._id}
-                className='grid shadow bg-white dark:bg-accent md:hover:scale-105 transition-transform duration-500 grid-rows-2 md:grid-rows-none cursor-pointer rounded-xl w-[10.5rem] m-auto md:w-52 h-64 md:h-80 '>
+                className='grid shadow bg-white dark:bg-accent grid-rows-2 md:grid-rows-none cursor-pointer rounded-xl w-[10.5rem] m-auto md:w-52 h-64 md:h-80 '>
                 <div className='relative h-36 '>
                   <Image
                     src={product.imageUrl}

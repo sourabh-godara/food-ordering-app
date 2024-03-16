@@ -34,7 +34,7 @@ export default async function Categories() {
             <Link
               href={`/menu/${category.name}`}
               key={category._id}
-              className='flex bg-white dark:bg-accent p-2 md:hover:scale-105 flex-col items-center transition-transform duration-500 rounded-xl gap-2 w-28 md:w-40'>
+              className='flex bg-white dark:bg-accent hover:bg-accent/90 transition-all duration-150 p-2 flex-col items-center rounded-xl gap-2 w-28 md:w-40'>
               <div className='rounded-xl p-3'>
                 <Image
                   src={category.imageUrl}

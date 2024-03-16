@@ -11,7 +11,7 @@ import {
 
 import React from "react";
 import ClientButton from "./ClientButton";
-import CartModal from "../CartModal";
+import CartModal from "./CartModal";
 import { getServerSession } from "next-auth";
 import { Button } from "../ui/button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -56,7 +56,9 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
-        <span className=' hover:cursor-pointer'>{/* <CartModal /> */}</span>
+        <span className=' hover:cursor-pointer'>
+          <CartModal />
+        </span>
 
         {session ? (
           <>

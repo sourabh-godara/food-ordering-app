@@ -4,6 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { IoArrowForwardOutline } from "react-icons/io5";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 async function fetchCategories() {
   "use server";
@@ -30,7 +36,7 @@ export default async function BestSellers() {
   return (
     <>
       <h3 className='text-center font-bold text-4xl mt-8'>Menu</h3>
-      <section className='flex gap-14 mt-10 justify-center'>
+      <section className='flex gap-14 w-full mt-10 justify-center'>
         <div className='grid grid-flow-col gap-4 overflow-scroll md:overflow-auto '>
           {data
             .filter((items, index) => index < 5)
@@ -59,11 +65,22 @@ export default async function BestSellers() {
               );
             })}
 
-          <div className='m-auto cursor-pointer hover:scale-105 transition-transform duration-500 bg-accent rounded-full p-2'>
-            <div>
-              <Link href={`/menu/${data[0].name}`}>
-                <IoArrowForwardOutline size={26} />
-              </Link>
+          <div className='h-full w-28 bg-gradient-to-l from-background via-background/80 to-transparent relative right-28 flex'>
+            <div className=' mt-11 ml-20 m-auto shadow-lg cursor-pointer hover:scale-105 transition-transform duration-500 rounded-full'>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className='bg-accent hover:bg-accent/90 rounded-full p-2'>
+                      <Link href={`/menu/${data[0].name}`}>
+                        <IoArrowForwardOutline size={26} />
+                      </Link>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className='bg-accent'>
+                    Explore Menu
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>
