@@ -8,7 +8,6 @@ export async function POST(req: Request, res) {
   }
   try {
     const { items } = await Cart.findOne({ userId });
-    console.log({ items });
     let cartItems = [];
 
     for (let i = 0; i < items.length; i++) {
