@@ -56,7 +56,10 @@ export default async function Navbar() {
             </Link>
           </Button>
         ) : null}
-        <span className=' hover:cursor-pointer'>{/*  <CartModal /> */}</span>
+        <span className=' hover:cursor-pointer'>
+          {" "}
+          <CartModal />
+        </span>
 
         {session ? (
           <>
