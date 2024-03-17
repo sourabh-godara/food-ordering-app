@@ -14,6 +14,8 @@ import { Cart } from "@/app/api/models/cartModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { IoBagOutline } from "react-icons/io5";
 import CartItems from "./CartItems";
+import { Button } from "../ui/button";
+import CartCheckout from "./CartCheckout";
 
 async function fetchCart() {
   const session = await getServerSession(authOptions);
@@ -51,10 +53,22 @@ export default async function CartModal() {
         <SheetHeader>
           <SheetTitle className='m-auto text-xl'>Cart Items</SheetTitle>
         </SheetHeader>
-
-        <div className='grid'>
-          <CartItems data={data} />
-        </div>
+        {data.length < 1 ? (
+          <div className='flex flex-col gap-2 items-center justify-center h-full'>
+            <Image
+              src={"/emptyCart.png"}
+              alt='emptyCart'
+              width={100}
+              height={100}
+            />
+            <h2>Cart is empty</h2>
+          </div>
+        ) : (
+          <>
+            <CartItems data={data} />
+            <CartCheckout data={data} />
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );
