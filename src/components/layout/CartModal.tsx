@@ -6,15 +6,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { MdDeleteOutline } from "react-icons/md";
 import Image from "next/image";
-import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
-import { Cart } from "@/app/api/models/cartModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { IoBagOutline } from "react-icons/io5";
 import CartItems from "./CartItems";
-import { Button } from "../ui/button";
 import CartCheckout from "./CartCheckout";
 
 async function fetchCart() {
@@ -38,7 +34,7 @@ async function fetchCart() {
       return { data: null, error: true };
     }
   }
-  return { data: null, error: true };
+  return { data: null, error: "Please sign in" };
 }
 
 export default async function CartModal() {
@@ -53,7 +49,8 @@ export default async function CartModal() {
         <SheetHeader>
           <SheetTitle className='m-auto text-xl'>Cart Items</SheetTitle>
         </SheetHeader>
-        {data.length < 1 ? (
+        {error && <div className='text-center mt-4'>{error}</div>}
+        {data?.length < 1 ? (
           <div className='flex flex-col gap-2 items-center justify-center h-full'>
             <Image
               src={"/emptyCart.png"}
