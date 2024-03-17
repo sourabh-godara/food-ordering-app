@@ -1,3 +1,4 @@
+import connectDB from "@/lib/connectDB";
 import { Cart } from "../models/cartModel";
 import { Product } from "../models/productModel";
 
@@ -7,6 +8,7 @@ export async function POST(req: Request, res) {
     return Response.json({ data: null, error: true });
   }
   try {
+    await connectDB();
     const { items } = await Cart.findOne({ userId });
     let cartItems = [];
 
