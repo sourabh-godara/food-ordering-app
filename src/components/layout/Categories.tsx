@@ -15,6 +15,14 @@ async function fetchCategories() {
     return { data: null, error: true };
   }
 }
+export async function generateStaticParams() {
+  const slugs = await Category.find().select("name");
+  console.log({ slugs });
+  const slugRoutes = slugs.map((slug) => slug);
+  return slugRoutes.map((slug) => ({
+    slug,
+  }));
+}
 export default async function Categories() {
   const { data, error } = await fetchCategories();
   if (error) {
@@ -29,7 +37,7 @@ export default async function Categories() {
   return (
     <>
       <div className='grid grid-flow-col gap-6 justify-start overflow-x-auto overflow-y-hidden md:overflow-auto mt-10 p-2 md:p-4'>
-        {data.map((category, index) => {
+        {data.map((category) => {
           return (
             <Link
               href={`/menu/${category.name}`}

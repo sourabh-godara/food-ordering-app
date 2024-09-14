@@ -38,7 +38,7 @@ async function createItem(formData: FormData) {
   const image = formData.get("image") as File;
 
   const imageUrl =
-    "http://localhost:3000/menu/sample"; /* await imageUpload(image); */
+    /* "http://localhost:3000/menu/sample";  */ await imageUpload(image);
   const safeParsed = formParse.safeParse({
     name,
     description,

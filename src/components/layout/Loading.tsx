@@ -1,3 +1,5 @@
+"use client";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 function Loading() {
@@ -5,7 +7,9 @@ function Loading() {
     <div role='status' className='flex justify-center items-center h-screen'>
       <svg
         aria-hidden='true'
-        className='w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-red-700'
+        className={cn(
+          "text-gray-200 animate-spin dark:text-gray-600 fill-red-700 size-8"
+        )}
         viewBox='0 0 100 101'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>

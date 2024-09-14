@@ -1,13 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
 import { PiUsersLight } from "react-icons/pi";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { BiFoodMenu } from "react-icons/bi";
@@ -47,9 +40,8 @@ export default function Sidebar() {
 
             <Link href={"/admin/customers"}>
               <Button
-                variant={`${
-                  pathname === "/admin/customers" ? "secondary" : "ghost"
-                }`}
+                variant={`${pathname === "/admin/customers" ? "secondary" : "ghost"
+                  }`}
                 className='w-full gap-2 justify-start mt-2'>
                 <PiUsersLight size={20} />
                 Customers
@@ -58,9 +50,8 @@ export default function Sidebar() {
 
             <Link href={"/admin/orders"}>
               <Button
-                variant={`${
-                  pathname === "admin/orders" ? "secondary" : "ghost"
-                }`}
+                variant={`${pathname === "admin/orders" ? "secondary" : "ghost"
+                  }`}
                 className='w-full gap-2 justify-start mt-2'>
                 <IoBagHandleOutline size={20} />
                 Orders
@@ -105,9 +96,8 @@ export default function Sidebar() {
 
             <Link href={"/admin/reports"}>
               <Button
-                variant={`${
-                  pathname === "/admin/reports" ? "secondary" : "ghost"
-                }`}
+                variant={`${pathname === "/admin/reports" ? "secondary" : "ghost"
+                  }`}
                 className='w-full gap-2 justify-start mt-2'>
                 <MdReportProblem size={20} />
                 Reports

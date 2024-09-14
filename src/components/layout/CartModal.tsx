@@ -38,7 +38,6 @@ async function fetchCart() {
 }
 
 export default async function CartModal() {
-  console.log("cart rendered");
   const { data, error } = await fetchCart();
   return (
     <Sheet>

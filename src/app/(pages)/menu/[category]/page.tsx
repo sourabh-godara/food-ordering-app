@@ -8,15 +8,12 @@ export default async function page({
 }: {
   params: { category: string };
 }) {
-  let newParam = params.category
-    .replace("%20", " ")
-    .replace("%20", " ")
-    .replace("%26%20", "& ");
+  let decodedParam = decodeURI(params.category);
   return (
     <>
       <Categories />
       <Suspense fallback={<Loading />}>
-        <Products newParam={newParam} />
+        <Products newParam={decodedParam} />
       </Suspense>
     </>
   );

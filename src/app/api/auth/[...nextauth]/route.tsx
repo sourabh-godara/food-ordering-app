@@ -1,16 +1,16 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import bcrypt from "bcrypt";
 
 import { User } from "../../models/userModel";
 import connectDB from "@/lib/connectDB";
+import clientPromise from "@/lib/MongoAdapter";
+import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/signIn", // New users will be directed here on first sign in (leave the property out if not of interest)
-  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -20,10 +20,10 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
 
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: { label: "Username", type: "text" },
         email: {
           label: "Email",
-          type: "text",
+          type: "email",
           placeholder: "example@gmail.com",
         },
         password: { label: "Password", type: "password" },
@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  adapter: MongoDBAdapter(clientPromise) as Adapter,
 };
 
 const handler = NextAuth(authOptions);

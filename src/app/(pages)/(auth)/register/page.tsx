@@ -5,24 +5,38 @@ import AlertError from "@/components/layout/AlertError";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import Router from "next/router";
+import { signIn } from "next-auth/react";
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
 export default function Page() {
-  const [alert, setAlert] = useState("");
-  async function handleForm(formData: FormData) {
-    const res = await registerUser(formData);
-    if (!res.success) {
-      setAlert(res.message);
-    } else {
-      toast({
-        variant: "success",
-        title: "User Registered",
-        description: "Go To Login Page",
-        action: (
-          <ToastAction altText='login'>
-            <Link href={"/signIn"}>Log In</Link>
-          </ToastAction>
-        ),
-      });
+  const [alert, setAlert] = useState(null);
+
+  async function handleForm(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formObject = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
+    try {
+      const res = await registerUser(formObject);
+      if (res.success) {
+        setAlert(null);
+        const { email, password } = formObject;
+        await signIn("credentials", { email, password, callbackUrl: "/" });
+      } else {
+        setAlert(res.message);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setAlert("An unexpected error occurred. Please try again later.");
     }
   }
 
@@ -38,7 +52,7 @@ export default function Page() {
                 </h2>
                 {alert ? <AlertError message={alert} /> : null}
 
-                <form action={handleForm} className='mt-4 lg:mt-7 '>
+                <form onSubmit={handleForm} className='mt-4 lg:mt-7 '>
                   <div>
                     <input
                       type='text'
@@ -77,12 +91,6 @@ export default function Page() {
                         </svg>
                       </div>
                     </div>
-                  </div>
-                  <div className='flex flex-wrap items-center justify-between mt-4 lg:mt-7'>
-                    <label className='flex'>
-                      <input type='checkbox' className='mt-1 mr-4 bg-primary' />
-                      <span className='text-sm '>Remember me</span>
-                    </label>
                   </div>
                   <button
                     type='submit'

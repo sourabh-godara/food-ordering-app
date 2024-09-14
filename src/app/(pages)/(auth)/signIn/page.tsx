@@ -2,13 +2,14 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
-import { z } from "zod";
+import React, { FormEvent, useState } from "react";
+import { z, ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import AlertError from "@/components/layout/AlertError";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/layout/Loading";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 export default function Page() {
   const { status } = useSession();
@@ -16,30 +17,40 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
   if (status === "authenticated") {
     return redirect("/");
   }
-  async function handleLogin(e: Event) {
+  const signInSchema = z.object({
+    email: z
+      .string()
+      .min(4, { message: "Email must be at least 4 characters long." })
+      .email({ message: "Enter a valid email address." }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long." })
+      .max(20, { message: "Password must be at most 20 characters long." }),
+  });
+
+  async function handleLogin(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
-    const signinSchema = z.object({
-      email: z
-        .string()
-        .min(4, { message: "Enter a valid email." })
-        .email("This is not a valid email."),
-      password: z
-        .string()
-        .min(8, { message: "Password must be 8 or more characters long" })
-        .max(20),
-    });
+    setLoading(true);
+
     try {
-      signinSchema.parse({ email, password });
+      signInSchema.parse({ email, password });
+      await signIn("credentials", { email, password, callbackUrl: "/" });
     } catch (error) {
-      const validationError = fromZodError(error);
-      const error_message = validationError.details[0].message;
-      setAlert(error_message);
-      return null;
+      if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        const errorMessage = validationError.details[0].message;
+        setAlert(errorMessage);
+      } else {
+        setAlert("An unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
     }
-    await signIn("credentials", { email, password, callbackUrl: "/" });
   }
   return (
     <section className='flex items-center justify-center h-screen font-poppins'>
@@ -53,9 +64,9 @@ export default function Page() {
                 </h2>
                 {alert ? <AlertError message={alert} /> : null}
                 <form onSubmit={handleLogin} className='mt-4 lg:mt-7 '>
-                  <div className=''>
+                  <div>
                     <input
-                      type=''
+                      type='email'
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
                       className='w-full px-4 py-3 mt-2  rounded-lg lg:py-5'
@@ -67,24 +78,22 @@ export default function Page() {
                     <div>
                       <div className='relative flex items-center'>
                         <input
-                          type='password'
+                          type={visible ? "text" : "password"}
                           onChange={(e) => setPassword(e.target.value)}
                           value={password}
-                          className='w-full px-4 py-3  rounded-lg lg:py-5 '
+                          className='w-full px-4 py-3 rounded-lg lg:py-5 '
                           name='password'
                           placeholder='Enter password'
                         />
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          width='16'
-                          height='16'
-                          className='absolute right-0 mr-3'
-                          fill='currentColor'
-                          viewBox='0 0 16 16'>
-                          <path d='M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z' />
-                          <path d='M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z' />
-                          <path d='M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z' />
-                        </svg>
+                        <div
+                          className='right-4 absolute'
+                          onClick={() => setVisible(!visible)}>
+                          {visible ? (
+                            <IoEyeOffOutline color='black' />
+                          ) : (
+                            <IoEyeOutline color='black' />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -96,15 +105,21 @@ export default function Page() {
                     <a
                       href=' #'
                       className='text-sm font-semibold text-primary lg:mt-0 hover:underline'>
-                      Forgot Password?{" "}
+                      Forgot Password?
                     </a>
                   </div>
                   <Button
                     className='w-full mt-6 disabled:bg-zinc-900 bg-accent hover:bg-zinc-700 transition-all duration-300'
                     variant='ghost'
                     type='submit'
-                    aria-disabled={pending}>
-                    {pending ? <Loading /> : "Login"}
+                    aria-disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Loading />
+                      </>
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
                 </form>
                 <Button
