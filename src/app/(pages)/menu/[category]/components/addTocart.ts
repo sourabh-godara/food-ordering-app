@@ -1,51 +1,42 @@
 "use server";
+
 import { Cart } from "@/app/api/models/cartModel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { revalidateTag } from "next/cache";
-export default async function addToCart(id) {
+
+// Define the types for the function parameter and return type
+interface AddToCartResult {
+  success: boolean;
+  message: string;
+}
+
+export default async function addToCart(id: string): Promise<AddToCartResult> {
   try {
+    // Get the user session
     const { user } = await getServerSession(authOptions);
-    const cartExists = await Cart.find({ userId: user.id });
-    if (cartExists) {
-      await Cart.findOneAndUpdate(
-        { userId: user.id },
-        {
-          $push: {
-            items: {
-              productId: id,
-              quantity: 1,
-            },
-          },
-          $inc: { total_quantity: 1 },
-        },
-        {
-          upsert: true,
-        }
-      );
+
+    // Check if the cart exists and update it or create a new cart if it doesn't exist
+    const updateResult = await Cart.findOneAndUpdate(
+      { userId: user.id },
+      {
+        $push: { items: { productId: id, quantity: 1 } },
+        $inc: { total_quantity: 1 },
+      },
+      { upsert: true, new: true }
+    );
+
+    // Check if the update was successful
+    if (updateResult) {
       return { success: true, message: "Added To Cart" };
     } else {
-      try {
-        const cartItem = new Cart({
-          userId: user.id,
-          items: [
-            {
-              productId: id,
-              quantity: 1,
-            },
-          ],
-        });
-        await cartItem.save();
-        return { success: true, message: "Added To Cart" };
-      } catch (error) {
-        console.log("Error adding to cart", error.message);
-        return { success: false, message: "Something Went Wrong" };
-      }
+      return { success: false, message: "Something Went Wrong" };
     }
   } catch (error) {
-    console.log("Something went wrong", error.message);
+    console.error("Error adding to cart:", error.message);
     return { success: false, message: "Something Went Wrong" };
   } finally {
+    // Revalidate the cart tag
     revalidateTag("cart");
   }
 }

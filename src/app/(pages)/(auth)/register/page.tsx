@@ -2,11 +2,6 @@
 import React, { useState } from "react";
 import registerUser from "./register-action";
 import AlertError from "@/components/layout/AlertError";
-import { toast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import Router from "next/router";
 import { signIn } from "next-auth/react";
 
 interface FormData {
