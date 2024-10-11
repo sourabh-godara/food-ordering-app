@@ -8,12 +8,12 @@ export default async function page({
 }: {
   params: { category: string };
 }) {
-  let decodedParam = decodeURI(params.category);
+  let category = decodeURI(params.category);
   return (
     <>
       <Categories />
       <Suspense fallback={<Loading />}>
-        <Products newParam={decodedParam} />
+        <Products category={category} />
       </Suspense>
     </>
   );

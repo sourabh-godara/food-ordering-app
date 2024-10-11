@@ -26,11 +26,11 @@ export interface Product {
   updatedAt: Date;
 }
 
-async function fetchProducts(newParam: string): Promise<FetchProductsResult> {
+async function fetchProducts(category: string): Promise<FetchProductsResult> {
   "use server";
   try {
     await connectDB();
-    const res = await Product.find({ category: newParam });
+    const res = await Product.find({ category: category });
     return { data: res, error: null };
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -39,12 +39,11 @@ async function fetchProducts(newParam: string): Promise<FetchProductsResult> {
 }
 
 interface ProductsProps {
-  newParam: string;
+  category: string;
 }
 
-export default async function Products({ newParam }: ProductsProps) {
-  const { data, error } = await fetchProducts(newParam);
-
+export default async function Products({ category }: ProductsProps) {
+  const { data, error } = await fetchProducts(category);
   if (error) {
     throw new Error("Unable to fetch products");
   }
@@ -52,8 +51,9 @@ export default async function Products({ newParam }: ProductsProps) {
   return (
     <>
       <h2 className='text-lg font-medium md:text-2xl md:font-semibold mt-6 p-1 md:p-3'>
-        {data?.[0]?.category || "Products"}
+        {category}
       </h2>
+      {!data[0] && <h1 className="ml-4">No {category} right now!</h1>}
       <ProductCards products={data ? JSON.parse(JSON.stringify(data)) : []} />
     </>
   );
