@@ -19,7 +19,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "foody-website.s3.ap-south-1.amazonaws.com",
+        hostname: "food-ordering-1304.s3.us-east-1.amazonaws.com",
       },
     ],
   },
