@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "../components/provider/SessionProvider";
 import "./globals.css";
 import { ThemeProvider } from "../components/provider/ThemeProvider";
-import { Toaster } from "@/components/ui/toaster";
+import { authOptions } from "@/lib/authOptions";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,23 +19,22 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  modal,
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
         <SessionProvider session={session}>
           <main>
             <ThemeProvider
-              attribute='class'
-              defaultTheme='light'
+              attribute="class"
+              defaultTheme="light"
               enableSystem
-              disableTransitionOnChange>
-              <Toaster />
+              disableTransitionOnChange
+            >
               {children}
             </ThemeProvider>
           </main>

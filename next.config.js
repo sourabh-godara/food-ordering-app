@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
     ignoreBuildErrors: true,
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
   },
   images: {
     remotePatterns: [
@@ -19,7 +20,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "food-ordering-1304.s3.us-east-1.amazonaws.com",
+        hostname: "food-ordering-app-1304.s3.us-east-1.amazonaws.com",
       },
     ],
   },

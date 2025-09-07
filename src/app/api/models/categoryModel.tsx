@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { InferSchemaType, Model, Types } from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -8,16 +8,24 @@ const categorySchema = new mongoose.Schema(
       required: [true, "Please add a category Name"],
       maxlength: 32,
     },
-    imageUrl:{
-        type: String,
-        required: [true, "Please add a category Image"]
+    imageUrl: {
+      type: String,
+      required: [true, "Please add a category Image"],
     },
-    isActive:{
-      type:Boolean,
-      default:true
-    }
-},
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+  },
   { timestamps: true }
 );
 
-export const Category =  mongoose.models.Category || mongoose.model('Category', categorySchema);
+export type CategoryType = InferSchemaType<typeof categorySchema> & {
+  _id: Types.ObjectId;
+};
+
+const Category =
+  (mongoose.models.Category as Model<CategoryType>) ||
+  mongoose.model<CategoryType>("Category", categorySchema);
+
+export default Category;

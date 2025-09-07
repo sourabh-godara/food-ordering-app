@@ -1,6 +1,5 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
-
 import {
   Card,
   CardDescription,
@@ -11,7 +10,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -23,7 +21,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-
 import {
   Table,
   TableBody,
@@ -33,40 +30,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { revalidateTag } from "next/cache";
-import { imageUpload } from "@/lib/imageUpload";
-import { Category } from "@/app/api/models/categoryModel";
+import { toast } from "sonner";
+import { useTransition } from "react";
+import Loading from "@/components/layout/Loading";
+import createCategory from "@/app/actions/handleCategories";
 
-async function createCategory(formData: FormData) {
-  "use server";
-  const categorySchema = z.object({
-    name: z
-      .string()
-      .min(1)
-      .max(30, { message: "Maximum 30 Characters are allowed" }),
-    imageUrl: z.string().url(),
-  });
-  const { name, image } = Object.fromEntries(formData);
-  const imageUrl = "Uncomment"; /* await imageUpload(image); */
-  const safeParsed = categorySchema.safeParse({
-    name,
-    imageUrl,
-  });
-  if (safeParsed.success === false) {
-    return {
-      errors: safeParsed.error.flatten().fieldErrors,
-    };
-  } else {
-    await Category.create(safeParsed.data);
-    revalidateTag("category");
-  }
-}
-export default async function CategoriesTable({ category }: any) {
+export default function CategoriesTable({ category }: any) {
+  const [isPending, startTransition] = useTransition();
+
   return (
-    <Card className='p-4'>
-      <div className='flex justify-between items-center'>
+    <Card className="p-4">
+      <div className="flex justify-between items-center">
         <div>
-          <CardHeader className='p-2'>
+          <CardHeader className="p-2">
             <CardTitle>Categories</CardTitle>
             <CardDescription>List of categories of items</CardDescription>
           </CardHeader>
@@ -83,15 +59,33 @@ export default async function CategoriesTable({ category }: any) {
                   Enter the name of category to add
                 </DialogDescription>
               </DialogHeader>
-              <form action={createCategory} className='flex flex-col gap-2'>
-                <Input name='name' placeholder='Enter Name' />
+              <form
+                action={(formData) => {
+                  startTransition(async () => {
+                    const res = await createCategory(formData);
+                    if (res.success) {
+                      toast.success("New Category Added");
+                    } else {
+                      toast.error(res.message);
+                    }
+                  });
+                }}
+                className="flex flex-col gap-2"
+              >
+                <Input name="name" placeholder="Enter Name" />
+                <p className="text-xs text-right text-red-700">
+                  *Image size limit is 1 MB.
+                </p>
                 <Input
-                  type='file'
-                  name='image'
-                  accept='image'
-                  placeholder='Upload Image'
+                  type="file"
+                  name="image"
+                  accept="image"
+                  placeholder="Upload Image"
                 />
-                <Button>Reset</Button>
+
+                <Button disabled={isPending} type="submit">
+                  {isPending ? <Loading /> : "Add"}
+                </Button>
               </form>
             </DialogContent>
           </Dialog>
@@ -101,32 +95,35 @@ export default async function CategoriesTable({ category }: any) {
         <TableHeader>
           <TableRow>
             <TableHead>No.</TableHead>
-            <TableHead className='px-5'>Category</TableHead>
-            <TableHead className='px-5'>Status</TableHead>
+            <TableHead className="px-5">Category</TableHead>
+            <TableHead className="px-5">Status</TableHead>
             {/*  <TableHead className="px-5">Action</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
           {category?.map((category, index) => (
             <TableRow key={category._id}>
-              <TableCell className='font-medium'>{index + 1}</TableCell>
-              <TableCell className='px-5'>{category.name}</TableCell>
-              <TableCell className='px-5'>
+              <TableCell className="font-medium">{index + 1}</TableCell>
+              <TableCell className="px-5">{category.name}</TableCell>
+              <TableCell className="px-5">
                 {category.isActive ? "Active" : "Disables"}
               </TableCell>
-              <TableCell className='flex gap-2'>
+              <TableCell className="flex gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant='ghost' className='h-8 w-8 p-0'>
-                      <span className='sr-only'>Open menu</span>
-                      <DotsHorizontalIcon className='h-4 w-4' />
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <DotsHorizontalIcon className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align='end'>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Disable</DropdownMenuItem>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() =>
+                        toast.warning("This feature is not implemented yet!")
+                      }
+                    >
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

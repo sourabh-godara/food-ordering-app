@@ -1,5 +1,6 @@
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function Layout({
   children,
@@ -8,7 +9,8 @@ export default async function Layout({
 }) {
   return (
     <>
-      <div className='max-w-6xl m-auto p-2 md:p-5'>
+      <Toaster position="top-center" />
+      <div className="max-w-6xl m-auto p-2 md:p-5">
         <Navbar />
         {children}
         <Footer />

@@ -3,3 +3,8 @@ export type User = {
   email: string;
   role: "user" | "admin";
 };
+
+interface Price {
+  size: string;
+  price: string;
+}

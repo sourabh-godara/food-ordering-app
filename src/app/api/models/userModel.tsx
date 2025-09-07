@@ -1,28 +1,33 @@
-import mongoose from 'mongoose';
+import mongoose, { InferSchemaType, Model } from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name:{
-        type: String,
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
     },
-    email:{
-        type: String,
-        required: true,
-        unique: true
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    password:{
-        type:String,
-        required: true,
+    password: {
+      type: String,
+      required: true,
     },
-    image:{
-        type:String,
+    image: {
+      type: String,
     },
-    role:{
-      type:String,
-      default:'user',
+    role: {
+      type: String,
+      default: "user",
     },
-    emailVerified:{}
+    emailVerified: {},
+  },
+  { timestamps: true }
+);
 
-}, {timestamps: true});
+type UserType = InferSchemaType<typeof userSchema>;
 
-
-export const User =  mongoose.models.User || mongoose.model('User', userSchema);
+const User: Model<UserType> =
+  mongoose.models.User || mongoose.model("User", userSchema);
+export default User;

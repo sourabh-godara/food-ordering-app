@@ -53,66 +53,69 @@ export default function Page() {
     }
   }
   return (
-    <section className='flex items-center justify-center h-screen font-poppins'>
-      <div className='flex-1'>
-        <div className='px-2 mx-auto max-w-7xl lg:px-4'>
-          <div className='relative '>
-            <div className='relative px-4 py-4 md:py-11 sm:px-8'>
-              <div className='max-w-lg mx-auto text-center'>
-                <h2 className='mb-4 text-5xl font-bold  md:text-6xl'>
-                  F<span className='text-primary'>oo</span>dy
+    <section className="flex items-center justify-center h-screen font-poppins">
+      <div className="flex-1">
+        <div className="px-2 mx-auto max-w-7xl lg:px-4">
+          <div className="relative ">
+            <div className="relative px-4 py-4 md:py-11 sm:px-8">
+              <div className="max-w-lg mx-auto text-center">
+                <h2 className="mb-4 text-5xl font-bold  md:text-6xl">
+                  F<span className="text-primary">oo</span>dy
                 </h2>
                 {alert ? <AlertError message={alert} /> : null}
-                <form onSubmit={handleLogin} className='mt-4 lg:mt-7 '>
+                <form onSubmit={handleLogin} className="mt-4 lg:mt-7 ">
                   <div>
                     <input
-                      type='email'
+                      type="email"
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
-                      className='w-full px-4 py-3 mt-2  rounded-lg lg:py-5'
-                      name='email'
-                      placeholder='Enter your email'
+                      className="w-full px-4 py-3 mt-2  rounded-lg lg:py-5"
+                      name="email"
+                      placeholder="Enter your email"
                     />
                   </div>
-                  <div className='mt-4 lg:mt-7'>
+                  <div className="mt-4 lg:mt-7">
                     <div>
-                      <div className='relative flex items-center'>
+                      <div className="relative flex items-center">
                         <input
                           type={visible ? "text" : "password"}
                           onChange={(e) => setPassword(e.target.value)}
                           value={password}
-                          className='w-full px-4 py-3 rounded-lg lg:py-5 '
-                          name='password'
-                          placeholder='Enter password'
+                          className="w-full px-4 py-3 rounded-lg lg:py-5 "
+                          name="password"
+                          placeholder="Enter password"
                         />
                         <div
-                          className='right-4 absolute'
-                          onClick={() => setVisible(!visible)}>
+                          className="right-4 absolute"
+                          onClick={() => setVisible(!visible)}
+                        >
                           {visible ? (
-                            <IoEyeOffOutline color='black' />
+                            <IoEyeOffOutline color="black" />
                           ) : (
-                            <IoEyeOutline color='black' />
+                            <IoEyeOutline color="black" />
                           )}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-wrap items-center justify-between mt-5 lg:mt-7'>
-                    <label className='flex'>
-                      <input type='checkbox' className='mt-1 mr-4 bg-primary' />
-                      <span className='text-sm '>Remember me</span>
+                  <div className="flex flex-wrap items-center justify-between mt-5 lg:mt-7">
+                    <label className="flex">
+                      <input type="checkbox" className="mt-1 mr-4 bg-primary" />
+                      <span className="text-sm ">Remember me</span>
                     </label>
                     <a
-                      href=' #'
-                      className='text-sm font-semibold text-primary lg:mt-0 hover:underline'>
+                      href=" #"
+                      className="text-sm font-semibold text-primary lg:mt-0 hover:underline"
+                    >
                       Forgot Password?
                     </a>
                   </div>
                   <Button
-                    className='w-full mt-6 disabled:bg-zinc-900 bg-accent hover:bg-zinc-700 transition-all duration-300'
-                    variant='ghost'
-                    type='submit'
-                    aria-disabled={loading}>
+                    className="w-full mt-6 disabled:bg-zinc-900 bg-accent hover:bg-zinc-700 transition-all duration-300"
+                    variant="ghost"
+                    type="submit"
+                    aria-disabled={loading}
+                  >
                     {loading ? (
                       <>
                         <Loading />
@@ -129,14 +132,16 @@ export default function Page() {
                     })
                   }
                   disabled={pending}
-                  className='w-full mt-2 hover:bg-red-700 transition-all duration-300'>
-                  Sign In With Google
+                  className="w-full mt-2 hover:bg-red-700 transition-all duration-300"
+                >
+                  {loading ? <Loading /> : "Sign In With Google"}
                 </Button>
-                <p className='mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base'>
+                <p className="mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base">
                   Need an account? &nbsp;
                   <Link
-                    href='/register'
-                    className='font-semibold text-primary hover:text-red-600'>
+                    href="/register"
+                    className="font-semibold text-primary hover:text-red-600"
+                  >
                     Create an account
                   </Link>
                 </p>

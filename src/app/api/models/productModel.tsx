@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType, Model, Types } from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -39,5 +39,12 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Product =
-  mongoose.models.Product || mongoose.model("Product", productSchema);
+export type ProductType = InferSchemaType<typeof productSchema> & {
+  _id: Types.ObjectId;
+};
+
+const Product =
+  (mongoose.models.Product as Model<ProductType>) ||
+  mongoose.model<ProductType>("Product", productSchema);
+
+export default Product;

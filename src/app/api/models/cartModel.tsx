@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType, Model } from "mongoose";
+import { Types } from "mongoose";
 const cartSchema = new mongoose.Schema(
   {
     userId: {
@@ -27,4 +28,12 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Cart = mongoose.models.Cart || mongoose.model("Cart", cartSchema);
+export type CartType = InferSchemaType<typeof cartSchema> & {
+  _id: Types.ObjectId;
+};
+
+const Cart =
+  (mongoose.models.Cart as Model<CartType>) ||
+  mongoose.model<CartType>("Cart", cartSchema);
+
+export default Cart;

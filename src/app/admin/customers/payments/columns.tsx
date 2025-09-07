@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { User } from "@/types/userType";
+import { User } from "@/types/Types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<User>[] = [
@@ -14,13 +14,13 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "role",
-    header: () => <div className='mr-4'>Role</div>,
+    header: () => <div className="mr-4">Role</div>,
   },
   {
     accessorKey: "Options",
     header: "Options",
     cell: () => (
-      <Button className=' h-6 text-xs' variant='outline'>
+      <Button className=" h-6 text-xs" variant="outline">
         Make Admin
       </Button>
     ),

@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { useToast } from "@/components/ui/use-toast";
 
 import {
   Card,
@@ -14,30 +13,30 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {  useState } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Settings() {
-  const { toast } = useToast();
   const { theme, setTheme } = useTheme();
-  const [isChecked, setChecked] = useState(false)
+  const [isChecked, setChecked] = useState(false);
   const handleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
-      toast({title:"Dark Theme Applied!"})
+      toast("Dark Theme Applied!");
     } else {
       setTheme("light");
-      toast({title:"Light Theme Applied!"})
+      toast("Light Theme Applied!");
     }
   };
   const handleNotifications = () => {
-    if(isChecked) {
+    if (isChecked) {
       setChecked(false);
-      toast({title:"Notifications Enabled"})
-    }else{
+      toast("Notifications Enabled");
+    } else {
       setChecked(true);
-      toast({title:"Notifications Disabled"})
+      toast("Notifications Disabled");
     }
-  }
+  };
   return (
     <Card className="max-w-2xl m-auto mt-14">
       <CardHeader>
@@ -68,7 +67,7 @@ export default function Settings() {
           <Switch
             id="functional"
             checked={isChecked}
-            onCheckedChange={()=>handleNotifications()}
+            onCheckedChange={() => handleNotifications()}
           />
         </div>
         <div className="flex items-center justify-between space-x-2">
@@ -82,7 +81,11 @@ export default function Settings() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button variant="outline" className="w-full" onClick={()=>toast({title:"Preferences Saved"})}>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => toast("Preferences Saved")}
+        >
           Save preferences
         </Button>
       </CardFooter>
