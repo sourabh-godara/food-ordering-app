@@ -1,6 +1,6 @@
 "use server";
 import bcrypt from "bcrypt";
-import { User } from "@/app/api/models/userModel";
+import User from "@/app/api/models/userModel";
 import connectDB from "@/lib/connectDB";
 import { z, ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";

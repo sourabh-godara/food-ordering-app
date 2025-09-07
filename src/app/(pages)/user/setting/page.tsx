@@ -28,15 +28,7 @@ export default function Settings() {
       toast("Light Theme Applied!");
     }
   };
-  const handleNotifications = () => {
-    if (isChecked) {
-      setChecked(false);
-      toast("Notifications Enabled");
-    } else {
-      setChecked(true);
-      toast("Notifications Disabled");
-    }
-  };
+
   return (
     <Card className="max-w-2xl m-auto mt-14">
       <CardHeader>
@@ -64,11 +56,6 @@ export default function Settings() {
               Get Your Order Notifications
             </span>
           </Label>
-          <Switch
-            id="functional"
-            checked={isChecked}
-            onCheckedChange={() => handleNotifications()}
-          />
         </div>
         <div className="flex items-center justify-between space-x-2">
           <Label htmlFor="performance" className="flex flex-col space-y-1">
