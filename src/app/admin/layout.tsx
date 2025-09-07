@@ -20,7 +20,7 @@ export default async function Layout({
   if (session?.user.role === "admin") {
     return (
       <>
-        <Toaster position="top-center" />
+        <Toaster position="top-center" richColors />
         <main className="flex gap-4">
           <div className="max-w-[15vw] min-w-min border border-t-0 border-l-0 h-screen">
             <AdminSidebar />

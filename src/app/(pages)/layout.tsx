@@ -9,7 +9,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster position="top-center" richColors />
       <div className="max-w-6xl m-auto p-2 md:p-5">
         <Navbar />
         {children}

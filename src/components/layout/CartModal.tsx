@@ -11,9 +11,12 @@ import { IoBagOutline } from "react-icons/io5";
 import CartItems from "./CartItems";
 import CartCheckout from "./CartCheckout";
 import { fetchCart } from "@/app/actions/handleCart";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 export default async function CartModal() {
-  const { data, error, message } = await fetchCart();
+  const session = await getServerSession(authOptions);
+  const { data, error, message } = await fetchCart(session);
   return (
     <Sheet>
       <SheetTrigger asChild>

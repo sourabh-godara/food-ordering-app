@@ -1,6 +1,6 @@
 "use server";
 import "server-only";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { getServerSession } from "next-auth";
 import Cart from "@/app/api/models/cartModel";
 import { authOptions } from "@/lib/authOptions";
@@ -16,7 +16,6 @@ interface SessionUser {
 
 export default async function addToCart(productId: string) {
   try {
-    console.log("addtocart");
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return { success: true, message: "unauthorised" };
@@ -33,38 +32,45 @@ export default async function addToCart(productId: string) {
     if (!updateResult) {
       return { success: false, message: "Something Went Wrong" };
     }
+    revalidateTag("cart");
+    revalidatePath("/menu/all");
     return { success: true, message: "Added To Cart" };
   } catch (error) {
     return { success: false, message: "Something Went Wrong" };
   }
 }
-export async function fetchCart() {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return { data: [], error: true, message: "unauthorised" };
+
+export const fetchCart = unstable_cache(
+  async (session) => {
+    try {
+      if (!session?.user) {
+        return { data: [], error: true, message: "unauthorised" };
+      }
+
+      const userId = (session.user as SessionUser).id;
+      await connectDB();
+      const cart = await Cart.findOne({ userId }).lean();
+      if (!cart || cart.items.length === 0) {
+        return { data: [], error: false, message: "success" };
+      }
+
+      const productIds = cart.items.map((i) => i.productId);
+
+      const cartItems = await Product.find({ _id: { $in: productIds } }).lean();
+
+      return {
+        data: JSON.parse(JSON.stringify(cartItems)),
+        error: false,
+        message: "success",
+      };
+    } catch (error: any) {
+      console.log({ error });
+      return { data: [], error: true, message: "Something went wrong" };
     }
-
-    const userId = (session.user as SessionUser).id;
-    await connectDB();
-    const cart = await Cart.findOne({ userId }).lean();
-    if (!cart || cart.items.length === 0) {
-      return { data: [], error: false, message: "success" };
-    }
-
-    const productIds = cart.items.map((i) => i.productId);
-
-    const cartItems = await Product.find({ _id: { $in: productIds } }).lean();
-
-    return {
-      data: JSON.parse(JSON.stringify(cartItems)),
-      error: false,
-      message: "success",
-    };
-  } catch (error: any) {
-    return { data: [], error: true, message: error.message };
-  }
-}
+  },
+  ["cart"],
+  { revalidate: 3600, tags: ["cart"] }
+);
 
 export async function removeFromCart(formData: FormData) {
   const itemId = formData.get("productId");
@@ -85,6 +91,7 @@ export async function removeFromCart(formData: FormData) {
       { $pull: { items: { productId: itemId } }, $inc: { total_quantity: -1 } },
       { new: true }
     );
+    revalidateTag("cart");
 
     if (!result) {
       return { success: false, message: "Product Not Found" };
@@ -92,7 +99,5 @@ export async function removeFromCart(formData: FormData) {
     return { success: true, message: "Product Removed From Cart" };
   } catch (error) {
     return { success: false, message: "Something went wrong" };
-  } finally {
-    revalidateTag("cart");
   }
 }

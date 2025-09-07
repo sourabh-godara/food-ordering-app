@@ -2,22 +2,20 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useTransition } from "react";
 import { z, ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
-import AlertError from "@/components/layout/AlertError";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/layout/Loading";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { toast } from "sonner";
 
 export default function Page() {
   const { status } = useSession();
-  const { pending } = useFormStatus();
+  const [isPending, startTransition] = useTransition();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [alert, setAlert] = useState("");
-  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   if (status === "authenticated") {
     return redirect("/");
@@ -33,10 +31,8 @@ export default function Page() {
       .max(20, { message: "Password must be at most 20 characters long." }),
   });
 
-  async function handleLogin(e: FormEvent<HTMLFormElement>): Promise<void> {
+  async function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
-
     try {
       signInSchema.parse({ email, password });
       await signIn("credentials", { email, password, callbackUrl: "/" });
@@ -44,12 +40,10 @@ export default function Page() {
       if (error instanceof ZodError) {
         const validationError = fromZodError(error);
         const errorMessage = validationError.details[0].message;
-        setAlert(errorMessage);
+        toast.error(errorMessage);
       } else {
-        setAlert("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.");
       }
-    } finally {
-      setLoading(false);
     }
   }
   return (
@@ -62,7 +56,6 @@ export default function Page() {
                 <h2 className="mb-4 text-5xl font-bold  md:text-6xl">
                   F<span className="text-primary">oo</span>dy
                 </h2>
-                {alert ? <AlertError message={alert} /> : null}
                 <form onSubmit={handleLogin} className="mt-4 lg:mt-7 ">
                   <div>
                     <input
@@ -114,27 +107,24 @@ export default function Page() {
                     className="w-full mt-6 disabled:bg-zinc-900 bg-accent hover:bg-zinc-700 transition-all duration-300"
                     variant="ghost"
                     type="submit"
-                    aria-disabled={loading}
+                    disabled={isPending}
                   >
-                    {loading ? (
-                      <>
-                        <Loading />
-                      </>
-                    ) : (
-                      "Login"
-                    )}
+                    Login
                   </Button>
                 </form>
                 <Button
                   onClick={() =>
-                    signIn("google", {
-                      callbackUrl: "/",
+                    startTransition(async () => {
+                      toast.loading("Logging in...");
+                      await signIn("google", {
+                        callbackUrl: "/",
+                      });
                     })
                   }
-                  disabled={pending}
+                  disabled={isPending}
                   className="w-full mt-2 hover:bg-red-700 transition-all duration-300"
                 >
-                  {loading ? <Loading /> : "Sign In With Google"}
+                  {isPending ? <Loading /> : "Sign In With Google"}
                 </Button>
                 <p className="mt-4 text-xs text-gray-700 lg:mt-7 dark:text-gray-400 lg:text-base">
                   Need an account? &nbsp;

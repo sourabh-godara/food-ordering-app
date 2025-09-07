@@ -2,25 +2,25 @@ import { getServerSession } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
 import { authOptions } from "@/lib/authOptions";
+import connectDB from "@/lib/connectDB";
+import User from "@/app/api/models/userModel";
 
 export default async function page() {
-  interface Session {
-    user: {
-      name: string | undefined;
-      email: string | undefined;
-      image: string;
-    };
-  }
-  const session: Session | null = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+
   async function updateProfile(formData: FormData) {
     "use server";
-    const username = formData.get("username");
-    fetch("http://localhost:8080/api/profile", {
-      method: "PUT",
-      cache: "no-store",
-      body: JSON.stringify({ session, username }),
-      credentials: "include",
-    });
+    try {
+      const username = formData.get("username");
+      const email = session.user.email;
+      if (email == "admin@gmail.com") {
+        return;
+      }
+      await connectDB();
+      await User.updateOne({ email }, { name: username });
+    } catch (error) {
+      console.error(error);
+    }
   }
   return (
     <>
